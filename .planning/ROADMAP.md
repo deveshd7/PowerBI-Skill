@@ -30,7 +30,15 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Analyst can paste a DAX measure and receive a performance-optimised rewrite with per-change rationale; iterators over measure references are flagged for manual verification rather than auto-rewritten
   4. Analyst can paste a DAX measure and receive a version with inline `//` comments plus a populated description field value ready to paste into Power BI
   5. A `.pbi-context.md` session file is created and updated after each command; subsequent commands read it to avoid repeating failed approaches and flag prior failures to the analyst
-**Plans**: TBD
+**Plans**: 6 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Skill directory scaffolding, .pbi-context.md initial schema, test fixtures, /pbi:load stub
+- [ ] 01-02-PLAN.md — /pbi:explain command with context read/write loop and complexity-adaptive output
+- [ ] 01-03-PLAN.md — /pbi:format command with DAX Formatter API probe and Claude inline fallback
+- [ ] 01-04-PLAN.md — /pbi:optimise command with five optimisation rules and iterator-over-measure-ref guard
+- [ ] 01-05-PLAN.md — /pbi:comment command with inline // comments and Description Field block
+- [ ] 01-06-PLAN.md — /pbi:error command with error diagnosis, context correlation, and prior-failure skip
 
 ### Phase 2: Context Detection and PBIP File I/O
 **Goal**: Commands detect whether a PBIP project is present and which format it uses, and can safely write back to PBIP files when Desktop is confirmed closed
@@ -85,7 +93,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Paste-in DAX Commands | 0/TBD | Not started | - |
+| 1. Paste-in DAX Commands | 0/6 | Planned | - |
 | 2. Context Detection and PBIP File I/O | 0/TBD | Not started | - |
 | 3. Model-Wide Audit | 0/TBD | Not started | - |
 | 4. Git Workflow | 0/TBD | Not started | - |
