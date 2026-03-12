@@ -1,0 +1,52 @@
+{
+  "name": "SalesModel",
+  "compatibilityLevel": 1550,
+  "model": {
+    "culture": "en-US",
+    "tables": [
+      {
+        "name": "Sales",
+        "columns": [
+          {
+            "name": "Date",
+            "dataType": "dateTime"
+          },
+          {
+            "name": "Amount",
+            "dataType": "decimal"
+          }
+        ],
+        "measures": [
+          {
+            "name": "Revenue YTD",
+            "expression": [
+              "CALCULATE(",
+              "    [Revenue],",
+              "    DATESYTD('Date'[Date])",
+              ")"
+            ],
+            "description": "Year-to-date revenue.",
+            "formatString": "#,##0",
+            "displayFolder": "Time Intelligence"
+          },
+          {
+            "name": "Revenue",
+            "expression": "SUM(Sales[Amount])",
+            "formatString": "#,##0",
+            "displayFolder": "Base Measures"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "Sales_Date",
+        "fromTable": "Sales",
+        "fromColumn": "Date",
+        "toTable": "Date",
+        "toColumn": "Date",
+        "crossFilteringBehavior": "bothDirections"
+      }
+    ]
+  }
+}
