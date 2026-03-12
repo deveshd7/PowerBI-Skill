@@ -1,0 +1,1 @@
+Slow Sales 2024 = CALCULATE(SUM(Sales[Amount]), FILTER(Sales, Sales[Year] = 2024))

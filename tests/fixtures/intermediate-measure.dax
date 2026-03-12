@@ -1,0 +1,1 @@
+Sales YTD = CALCULATE([Revenue], DATESYTD('Date'[Date]))

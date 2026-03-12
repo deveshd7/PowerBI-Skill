@@ -1,0 +1,1 @@
+Risky Revenue = SUMX(Customers, [Revenue])

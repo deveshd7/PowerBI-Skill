@@ -1,0 +1,6 @@
+Error in expression: The name 'Revenue' does not exist in the current context.
+
+Location: Measure 'Sales YTD' in table 'Sales'
+Expression: CALCULATE([Revenue], DATESYTD('Date'[Date]))
+
+Details: The referenced measure [Revenue] cannot be resolved. Verify that the measure exists and is in scope.
