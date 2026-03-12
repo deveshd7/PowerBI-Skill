@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-03-12T16:50:37.467Z"
+stopped_at: Completed 05-direct-editing-and-router-02-PLAN.md
+last_updated: "2026-03-12T16:51:47.925Z"
 last_activity: 2026-03-12 — Roadmap created
 progress:
   total_phases: 5
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 18
-  completed_plans: 17
+  completed_plans: 18
   percent: 0
 ---
 
@@ -68,6 +68,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 04-git-workflow P01 | 4 | 3 tasks | 9 files |
 | Phase 04-git-workflow P04 | 2 | 2 tasks | 2 files |
 | Phase 05-direct-editing-and-router P01 | 2 | 1 tasks | 1 files |
+| Phase 05-direct-editing-and-router P02 | 2min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -118,6 +119,9 @@ Recent decisions affecting current work:
 - [Phase 05-direct-editing-and-router]: allowed-tools: Read used (not empty array) to avoid SKILL.md schema parse error
 - [Phase 05-direct-editing-and-router]: Router has no bash injection blocks — pure conversational routing skill
 - [Phase 05-direct-editing-and-router]: Category B (audit) and D (edit) route directly; A (DAX) and C (changes) ask one follow-up question
+- [Phase 05-direct-editing-and-router]: pbi-edit is PBIP-only — no paste-in fallback; stops with locked message on PBIP_MODE=paste
+- [Phase 05-direct-editing-and-router]: Capital-N default on confirm prompt means Enter = cancel; only explicit y or Y proceeds to write
+- [Phase 05-direct-editing-and-router]: Entity ambiguity always requires analyst clarification — no auto-selection when same name found in multiple tables
 
 ### Pending Todos
 
@@ -130,6 +134,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-12T16:50:37.465Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-03-12T16:51:47.923Z
+Stopped at: Completed 05-direct-editing-and-router-02-PLAN.md
 Resume file: None

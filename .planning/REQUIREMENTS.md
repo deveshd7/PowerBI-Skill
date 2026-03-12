@@ -79,10 +79,10 @@
 
 ### Direct PBIP Editing
 
-- [ ] **EDIT-01**: User can run `/pbi:edit` with a description of what to change and Claude reads the relevant PBIP files, applies the change, and writes back to disk
-- [ ] **EDIT-02**: Edit command performs pre-write checklist: Desktop-closed confirmation, `unappliedChanges.json` check, TMDL indentation preservation
-- [ ] **EDIT-03**: Edit command shows a preview of the change before writing (diff of before/after) and requires confirmation
-- [ ] **EDIT-04**: After a successful edit, an automatic local git commit is created (satisfies GIT-06)
+- [x] **EDIT-01**: User can run `/pbi:edit` with a description of what to change and Claude reads the relevant PBIP files, applies the change, and writes back to disk
+- [x] **EDIT-02**: Edit command performs pre-write checklist: Desktop-closed confirmation, `unappliedChanges.json` check, TMDL indentation preservation
+- [x] **EDIT-03**: Edit command shows a preview of the change before writing (diff of before/after) and requires confirmation
+- [x] **EDIT-04**: After a successful edit, an automatic local git commit is created (satisfies GIT-06)
 
 ## v2 Requirements
 
