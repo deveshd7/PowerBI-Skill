@@ -1,0 +1,21 @@
+table Sales
+
+	column Date
+		dataType: dateTime
+		formatString: General Date
+
+	column Amount
+		dataType: decimal
+		formatString: #,##0.00
+
+	/// Year-to-date revenue filtered to visible periods.
+	measure 'Revenue YTD' =
+			CALCULATE([Revenue], DATESYTD('Date'[Date]))
+		formatString: #,##0
+		displayFolder: "Time Intelligence"
+
+	measure Revenue =
+			SUM(Sales[Amount])
+		formatString: #,##0
+		displayFolder: "Base Measures"
+
