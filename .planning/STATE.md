@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-paste-in-dax-commands/01-03-PLAN.md
-last_updated: "2026-03-12T10:31:44.692Z"
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-03-12T12:38:03.214Z"
 last_activity: 2026-03-12 — Roadmap created
 progress:
   total_phases: 5
   completed_phases: 1
-  total_plans: 6
-  completed_plans: 6
+  total_plans: 10
+  completed_plans: 7
   percent: 0
 ---
 
@@ -56,6 +56,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01-paste-in-dax-commands P06 | 2 | 1 tasks | 1 files |
 | Phase 01-paste-in-dax-commands P04 | 4 | 1 tasks | 1 files |
 | Phase 01-paste-in-dax-commands P03 | 2 | 1 tasks | 2 files |
+| Phase 02-context-detection-and-pbip-file-i-o P02 | 1 | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -81,6 +82,9 @@ Recent decisions affecting current work:
 - [Phase 01-paste-in-dax-commands]: Rationale depth scales with inferred complexity: simple=one sentence, advanced=full paragraph explaining engine-level mechanism
 - [Phase 01-paste-in-dax-commands]: DAX Formatter JSON endpoint /api/daxformatter/dax returns 404 — legacy form-POST confirmed working; skill uses legacy endpoint with HTML strip pipeline
 - [Phase 01-paste-in-dax-commands]: API_FAIL fallback text locked: '_DAX Formatter API unavailable — formatted inline by Claude_'
+- [Phase 02-context-detection-and-pbip-file-i-o]: pbi-load startup uses three bash injections: PBIP detection + file index + session context; PBIP_MODE and PBIP_FORMAT flags drive all branching
+- [Phase 02-context-detection-and-pbip-file-i-o]: No-project path outputs locked message and stops; does not mention file mode, does not write .pbi-context.md
+- [Phase 02-context-detection-and-pbip-file-i-o]: Read-then-Write single pass: Model Context + Last Command + Command History updated atomically in .pbi-context.md
 
 ### Pending Todos
 
@@ -93,6 +97,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-12T10:27:22.514Z
-Stopped at: Completed 01-paste-in-dax-commands/01-03-PLAN.md
+Last session: 2026-03-12T12:38:03.212Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None

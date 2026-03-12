@@ -50,7 +50,13 @@ Plans:
   3. Before any file write, the command either detects a running `PBIDesktop.exe` process or requires explicit analyst confirmation; if Desktop is open or confirmation is absent, output is paste-ready only
   4. In PBIP file mode with Desktop confirmed closed, `/pbi:comment` writes inline comments and the description field back to the correct TMDL or `model.bim` file
   5. In PBIP file mode, error recovery diagnoses an error using `.pbi-context.md` context and can apply the fix directly to the file
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — TMDL and TMSL test fixtures for verification of all file-mode paths
+- [ ] 02-02-PLAN.md — /pbi:load rewrite: full PBIP context loading with format detection and model summary
+- [ ] 02-03-PLAN.md — /pbi:comment file-mode branch: Desktop guard, TMDL/TMSL write-back
+- [ ] 02-04-PLAN.md — /pbi:error file-mode branch: Desktop guard, before/after preview, confirm-before-write
 
 ### Phase 3: Model-Wide Audit
 **Goal**: Analysts can run a single command against a PBIP project and receive a complete, severity-graded model health report with specific locations and actionable recommendations
@@ -94,7 +100,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Paste-in DAX Commands | 6/6 | Complete   | 2026-03-12 |
-| 2. Context Detection and PBIP File I/O | 0/TBD | Not started | - |
+| 2. Context Detection and PBIP File I/O | 1/4 | In Progress|  |
 | 3. Model-Wide Audit | 0/TBD | Not started | - |
 | 4. Git Workflow | 0/TBD | Not started | - |
 | 5. Direct Editing and Router | 0/TBD | Not started | - |
