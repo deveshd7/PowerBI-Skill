@@ -12,7 +12,7 @@ PBI Skill is built in five phases that follow a strict dependency order: paste-i
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Paste-in DAX Commands** - All four DAX commands (explain, format, optimise, comment) plus session context — zero PBIP setup required
+- [x] **Phase 1: Paste-in DAX Commands** - All four DAX commands (explain, format, optimise, comment) plus session context — zero PBIP setup required (completed 2026-03-12)
 - [ ] **Phase 2: Context Detection and PBIP File I/O** - Mode detection, TMSL/TMDL format detection, Desktop-open safety guard, comment write-back, error recovery write-back
 - [ ] **Phase 3: Model-Wide Audit** - Full `/pbi:audit` command with severity-graded output across all audit domains
 - [ ] **Phase 4: Git Workflow** - `/pbi:diff` and `/pbi:commit` with business-language output and gitignore hygiene
@@ -93,7 +93,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Paste-in DAX Commands | 5/6 | In Progress|  |
+| 1. Paste-in DAX Commands | 6/6 | Complete   | 2026-03-12 |
 | 2. Context Detection and PBIP File I/O | 0/TBD | Not started | - |
 | 3. Model-Wide Audit | 0/TBD | Not started | - |
 | 4. Git Workflow | 0/TBD | Not started | - |

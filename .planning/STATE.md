@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-paste-in-dax-commands/01-06-PLAN.md
-last_updated: "2026-03-12T10:26:59.804Z"
+stopped_at: Completed 01-paste-in-dax-commands/01-04-PLAN.md
+last_updated: "2026-03-12T10:27:19.483Z"
 last_activity: 2026-03-12 — Roadmap created
 progress:
   total_phases: 5
@@ -55,6 +55,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01-paste-in-dax-commands P05 | 1 | 1 tasks | 1 files |
 | Phase 01-paste-in-dax-commands P06 | 2 | 1 tasks | 1 files |
 | Phase 01-paste-in-dax-commands P04 | 4 | 1 tasks | 1 files |
+| Phase 01-paste-in-dax-commands P03 | 2 | 1 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -75,6 +76,11 @@ Recent decisions affecting current work:
 - [Phase 01-paste-in-dax-commands]: Description Field capped at 300 chars with no markdown and no DAX function names — matches Power BI tooltip display constraints
 - [Phase 01-paste-in-dax-commands]: tail -100 used for pbi-error session context injection — error recovery benefits from more history than DAX commands (tail -80)
 - [Phase 01-paste-in-dax-commands]: Analyst-Reported Failures is analyst-managed only — pbi-error skill does not auto-write to that section to avoid false positives
+- [Phase 01-paste-in-dax-commands]: Iterator-over-measure-reference is flagged only, never auto-rewritten — context transition semantics must be manually verified before refactoring
+- [Phase 01-paste-in-dax-commands]: CRITICAL GUARD (Step 3) is positioned before rule application (Step 4) — order is load-bearing for correctness
+- [Phase 01-paste-in-dax-commands]: Rationale depth scales with inferred complexity: simple=one sentence, advanced=full paragraph explaining engine-level mechanism
+- [Phase 01-paste-in-dax-commands]: DAX Formatter JSON endpoint /api/daxformatter/dax returns 404 — legacy form-POST confirmed working; skill uses legacy endpoint with HTML strip pipeline
+- [Phase 01-paste-in-dax-commands]: API_FAIL fallback text locked: '_DAX Formatter API unavailable — formatted inline by Claude_'
 
 ### Pending Todos
 
@@ -87,6 +93,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-12T10:26:35.299Z
-Stopped at: Completed 01-paste-in-dax-commands/01-06-PLAN.md
+Last session: 2026-03-12T10:27:09.698Z
+Stopped at: Completed 01-paste-in-dax-commands/01-04-PLAN.md
 Resume file: None

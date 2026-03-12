@@ -35,10 +35,10 @@
 
 ### DAX — Optimise
 
-- [ ] **DAX-07**: User can paste a DAX measure and receive a performance-optimised rewrite with rationale explaining each change
-- [ ] **DAX-08**: Optimiser detects and rewrites common slow patterns: unnecessary `FILTER` on a table, `SUMX` over a single column where `SUM` suffices, redundant `CALCULATE` wrappers
-- [ ] **DAX-09**: Any measure containing iterators over measure references is flagged as "requires manual verification — context transition present" rather than auto-rewritten
-- [ ] **DAX-10**: Optimiser suggests alternatives with trade-off explanations where multiple valid rewrites exist
+- [x] **DAX-07**: User can paste a DAX measure and receive a performance-optimised rewrite with rationale explaining each change
+- [x] **DAX-08**: Optimiser detects and rewrites common slow patterns: unnecessary `FILTER` on a table, `SUMX` over a single column where `SUM` suffices, redundant `CALCULATE` wrappers
+- [x] **DAX-09**: Any measure containing iterators over measure references is flagged as "requires manual verification — context transition present" rather than auto-rewritten
+- [x] **DAX-10**: Optimiser suggests alternatives with trade-off explanations where multiple valid rewrites exist
 
 ### DAX — Comment
 
