@@ -12,7 +12,7 @@
 - [x] **INFRA-03**: All commands support two modes: paste-in (DAX/SQL pasted directly) and PBIP file mode (reads from disk when Desktop is closed)
 - [x] **INFRA-04**: Context detection — commands detect whether a `.SemanticModel/` PBIP project exists in the working directory
 - [x] **INFRA-05**: PBIP format detection — read `definition.pbism` version field to distinguish TMSL (`model.bim`) from TMDL (`definition/` folder) before any file operation
-- [ ] **INFRA-06**: Desktop-open safety guard — before any file write, check for running `PBIDesktop.exe` process or require explicit analyst confirmation; default to paste-in output otherwise
+- [x] **INFRA-06**: Desktop-open safety guard — before any file write, check for running `PBIDesktop.exe` process or require explicit analyst confirmation; default to paste-in output otherwise
 
 ### Session Context
 
@@ -44,13 +44,13 @@
 
 - [x] **DAX-11**: User can paste a DAX measure and receive a version with `//` inline comments explaining the business logic
 - [x] **DAX-12**: Command also outputs a populated `description` field value suitable for pasting into the Power BI measure Description property
-- [ ] **DAX-13**: When in PBIP file mode, command writes inline comments and description back to the target table's `.tmdl` or `model.bim` file directly (Desktop must be confirmed closed)
+- [x] **DAX-13**: When in PBIP file mode, command writes inline comments and description back to the target table's `.tmdl` or `model.bim` file directly (Desktop must be confirmed closed)
 
 ### Error Recovery
 
 - [x] **ERR-01**: User can paste a Power BI error log or error message and receive a diagnosis of the root cause
 - [x] **ERR-02**: Error recovery reads `.pbi-context.md` to understand what was last changed and correlates the error to recent edits
-- [ ] **ERR-03**: Error recovery proposes a specific fix (not just an explanation) and, when in PBIP file mode with Desktop closed, can apply the fix directly
+- [x] **ERR-03**: Error recovery proposes a specific fix (not just an explanation) and, when in PBIP file mode with Desktop closed, can apply the fix directly
 - [x] **ERR-04**: If the same error has been seen before (logged in `.pbi-context.md`), the command skips failed prior approaches and leads with the correct method
 
 ### Model Audit
