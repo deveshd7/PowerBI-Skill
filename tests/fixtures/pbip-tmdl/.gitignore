@@ -1,0 +1,7 @@
+# Power BI noise files
+*.abf
+localSettings.json
+.pbi-context.md
+SecurityBindings
+*.pbids
+cache/
