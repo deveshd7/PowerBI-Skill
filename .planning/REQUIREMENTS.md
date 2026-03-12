@@ -29,9 +29,9 @@
 
 ### DAX — Format
 
-- [ ] **DAX-04**: User can paste a DAX measure and receive SQLBI-style formatted output (consistent indentation, keyword capitalisation, line breaks)
-- [ ] **DAX-05**: Formatted output is returned as a copy-paste ready code block
-- [ ] **DAX-06**: Format command attempts DAX Formatter API first; falls back to Claude inline formatting if API is unreachable
+- [x] **DAX-04**: User can paste a DAX measure and receive SQLBI-style formatted output (consistent indentation, keyword capitalisation, line breaks)
+- [x] **DAX-05**: Formatted output is returned as a copy-paste ready code block
+- [x] **DAX-06**: Format command attempts DAX Formatter API first; falls back to Claude inline formatting if API is unreachable
 
 ### DAX — Optimise
 
