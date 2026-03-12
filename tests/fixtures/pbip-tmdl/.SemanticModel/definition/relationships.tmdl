@@ -1,0 +1,6 @@
+relationship 'Sales_Date'
+	fromTable: Sales
+	fromColumn: Date
+	toTable: Date
+	toColumn: Date
+	crossFilteringBehavior: bothDirections
