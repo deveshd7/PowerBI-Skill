@@ -8,7 +8,7 @@
 ### Skill Infrastructure
 
 - [x] **INFRA-01**: Skill suite is invocable via `/pbi` prefix commands (e.g. `/pbi:optimize`, `/pbi:audit`)
-- [ ] **INFRA-02**: Bare `/pbi` command asks what the analyst needs and routes to the appropriate subcommand
+- [x] **INFRA-02**: Bare `/pbi` command asks what the analyst needs and routes to the appropriate subcommand
 - [x] **INFRA-03**: All commands support two modes: paste-in (DAX/SQL pasted directly) and PBIP file mode (reads from disk when Desktop is closed)
 - [x] **INFRA-04**: Context detection — commands detect whether a `.SemanticModel/` PBIP project exists in the working directory
 - [x] **INFRA-05**: PBIP format detection — read `definition.pbism` version field to distinguish TMSL (`model.bim`) from TMDL (`definition/` folder) before any file operation

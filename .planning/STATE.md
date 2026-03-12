@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 5 context gathered
-last_updated: "2026-03-12T16:22:26.521Z"
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-03-12T16:50:37.467Z"
 last_activity: 2026-03-12 — Roadmap created
 progress:
   total_phases: 5
   completed_phases: 4
-  total_plans: 16
-  completed_plans: 16
+  total_plans: 18
+  completed_plans: 17
   percent: 0
 ---
 
@@ -67,6 +67,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 04-git-workflow P03 | 2 | 1 tasks | 1 files |
 | Phase 04-git-workflow P01 | 4 | 3 tasks | 9 files |
 | Phase 04-git-workflow P04 | 2 | 2 tasks | 2 files |
+| Phase 05-direct-editing-and-router P01 | 2 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -114,6 +115,9 @@ Recent decisions affecting current work:
 - [Phase 04-git-workflow]: Test fixture baseline commit message 'chore: initial PBIP model commit' is the expected string in git log verification; pbip-no-repo has no git init by design — /pbi:commit initialises one during GIT-08 test flow
 - [Phase 04-git-workflow]: Auto-commit block placed after Written-to confirmation in both TMDL and TMSL paths in pbi-comment; inside y-confirm branch only in pbi-error (n/N path does not trigger it)
 - [Phase 04-git-workflow]: AUTO_COMMIT=fail is silent — file write success is primary outcome; git failure is non-fatal; no git push in pbi-comment or pbi-error (GIT-07)
+- [Phase 05-direct-editing-and-router]: allowed-tools: Read used (not empty array) to avoid SKILL.md schema parse error
+- [Phase 05-direct-editing-and-router]: Router has no bash injection blocks — pure conversational routing skill
+- [Phase 05-direct-editing-and-router]: Category B (audit) and D (edit) route directly; A (DAX) and C (changes) ask one follow-up question
 
 ### Pending Todos
 
@@ -126,6 +130,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-12T16:22:26.519Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-direct-editing-and-router/05-CONTEXT.md
+Last session: 2026-03-12T16:50:37.465Z
+Stopped at: Completed 05-01-PLAN.md
+Resume file: None
