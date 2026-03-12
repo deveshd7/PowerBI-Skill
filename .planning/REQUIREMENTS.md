@@ -48,10 +48,10 @@
 
 ### Error Recovery
 
-- [ ] **ERR-01**: User can paste a Power BI error log or error message and receive a diagnosis of the root cause
-- [ ] **ERR-02**: Error recovery reads `.pbi-context.md` to understand what was last changed and correlates the error to recent edits
+- [x] **ERR-01**: User can paste a Power BI error log or error message and receive a diagnosis of the root cause
+- [x] **ERR-02**: Error recovery reads `.pbi-context.md` to understand what was last changed and correlates the error to recent edits
 - [ ] **ERR-03**: Error recovery proposes a specific fix (not just an explanation) and, when in PBIP file mode with Desktop closed, can apply the fix directly
-- [ ] **ERR-04**: If the same error has been seen before (logged in `.pbi-context.md`), the command skips failed prior approaches and leads with the correct method
+- [x] **ERR-04**: If the same error has been seen before (logged in `.pbi-context.md`), the command skips failed prior approaches and leads with the correct method
 
 ### Model Audit
 
