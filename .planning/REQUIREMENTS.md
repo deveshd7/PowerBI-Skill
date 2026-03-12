@@ -7,7 +7,7 @@
 
 ### Skill Infrastructure
 
-- [ ] **INFRA-01**: Skill suite is invocable via `/pbi` prefix commands (e.g. `/pbi:optimize`, `/pbi:audit`)
+- [x] **INFRA-01**: Skill suite is invocable via `/pbi` prefix commands (e.g. `/pbi:optimize`, `/pbi:audit`)
 - [ ] **INFRA-02**: Bare `/pbi` command asks what the analyst needs and routes to the appropriate subcommand
 - [ ] **INFRA-03**: All commands support two modes: paste-in (DAX/SQL pasted directly) and PBIP file mode (reads from disk when Desktop is closed)
 - [ ] **INFRA-04**: Context detection — commands detect whether a `.SemanticModel/` PBIP project exists in the working directory
@@ -16,7 +16,7 @@
 
 ### Session Context
 
-- [ ] **CTX-01**: A `.pbi-context.md` session file is maintained in the project root, tracking: last command run, what was changed, what was tried and failed, and open issues
+- [x] **CTX-01**: A `.pbi-context.md` session file is maintained in the project root, tracking: last command run, what was changed, what was tried and failed, and open issues
 - [ ] **CTX-02**: Each command reads `.pbi-context.md` at startup and uses it to avoid repeating failed approaches
 - [ ] **CTX-03**: Each command updates `.pbi-context.md` after execution with a summary of what was done and the outcome
 - [ ] **CTX-04**: If a previous approach failed (logged in context), the command flags this to the analyst and suggests an alternative rather than retrying the same method
