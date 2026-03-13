@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-stopped_at: Phase 1 context gathered
-last_updated: "2026-03-13T17:53:53.292Z"
-last_activity: 2026-03-13 — Roadmap created
+status: in-progress
+stopped_at: "Completed 01-02-PLAN.md"
+last_updated: "2026-03-13T22:35:00.000Z"
+last_activity: 2026-03-13 — Completed Phase 1 plan 02 (acceptance test scenarios)
 progress:
-  total_phases: 4
-  completed_phases: 3
-  total_plans: 12
-  completed_plans: 12
-  percent: 0
+  total_phases: 3
+  completed_phases: 0
+  total_plans: 6
+  completed_plans: 2
+  percent: 33
 ---
 
 # Project State
@@ -26,28 +26,28 @@ See: .planning/PROJECT.md (updated 2026-03-13)
 ## Current Position
 
 Phase: 1 of 3 (Skill Core + Escalation)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-03-13 — Roadmap created
+Plan: 2 of 2 completed in Phase 1
+Status: Phase 1 complete — ready for Phase 2
+Last activity: 2026-03-13 — Completed plan 01-02 (acceptance test scenarios, human verification approved)
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [███░░░░░░░] 33%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: -
-- Total execution time: 0 hours
+- Total plans completed: 2
+- Average duration: ~20 min
+- Total execution time: ~40 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01-skill-core-escalation | 2 | ~40 min | ~20 min |
 
 **Recent Trend:**
-- Last 5 plans: none yet
-- Trend: -
+- Last 5 plans: 01-01 (SKILL.md v4.0 rewrite), 01-02 (acceptance scenarios)
+- Trend: On track
 
 *Updated after each plan completion*
 
@@ -60,17 +60,20 @@ Recent decisions affecting current work:
 
 - [Init]: Model after GSD structure — user identified GSD as reference for quality
 - [Init]: Progressive friction replaces upfront interrogation — core value inversion from v1
+- [01-01]: Solve-first catch-all routing via `*` wildcard in SKILL.md routing table
+- [01-01]: Escalation uses gap-type targeting (one question per identified gap, not a full checklist)
+- [01-02]: Acceptance test scenarios structured as step tables for ease of manual execution
 
 ### Pending Todos
 
-None yet.
+None.
 
 ### Blockers/Concerns
 
-None yet.
+None.
 
 ## Session Continuity
 
-Last session: 2026-03-13T17:53:53.290Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-skill-core-escalation/01-CONTEXT.md
+Last session: 2026-03-13T22:35:00.000Z
+Stopped at: Completed 01-02-PLAN.md
+Resume file: .planning/phases/01-skill-core-escalation/01-02-SUMMARY.md

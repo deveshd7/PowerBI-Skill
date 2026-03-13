@@ -12,7 +12,7 @@ The skill is built in three delivery phases. Phase 1 ships the working skill wit
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Skill Core + Escalation** - Working skill file with solve-first default and targeted escalation after 2-3 failed attempts
+- [x] **Phase 1: Skill Core + Escalation** - Working skill file with solve-first default and targeted escalation after 2-3 failed attempts
 - [ ] **Phase 2: Context-Aware DAX** - Measures output uses actual model context, checks for duplicates, warns on filter exposure
 - [ ] **Phase 3: Deep Mode + Verification** - On-demand structured workflow with model review phase, phase gates, and context re-injection
 
@@ -30,8 +30,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — SKILL.md v4.0 rewrite with solve-first default, escalation, and deep mode routing
-- [ ] 01-02-PLAN.md — Acceptance test scenarios and human verification
+- [x] 01-01-PLAN.md — SKILL.md v4.0 rewrite with solve-first default, escalation, and deep mode routing
+- [x] 01-02-PLAN.md — Acceptance test scenarios and human verification
 
 ### Phase 2: Context-Aware DAX
 **Goal**: Generated DAX is grounded in the user's actual model, avoids duplicates, and flags filter context risks
@@ -63,6 +63,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Skill Core + Escalation | 0/2 | Planning complete | - |
+| 1. Skill Core + Escalation | 2/2 | Complete | 2026-03-13 |
 | 2. Context-Aware DAX | 0/TBD | Not started | - |
 | 3. Deep Mode + Verification | 0/TBD | Not started | - |
