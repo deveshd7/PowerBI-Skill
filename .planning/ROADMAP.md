@@ -27,7 +27,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. After 2-3 failed or unresolved attempts, the skill escalates and asks only the questions blocking the solution — not a full pre-flight checklist
   3. Escalation surfaces exactly the blocking gaps: business question, data model state, or existing measures — as targeted questions, not a form
   4. User can invoke deep workflow mode explicitly and the skill does not enter that mode otherwise
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — SKILL.md v4.0 rewrite with solve-first default, escalation, and deep mode routing
+- [ ] 01-02-PLAN.md — Acceptance test scenarios and human verification
 
 ### Phase 2: Context-Aware DAX
 **Goal**: Generated DAX is grounded in the user's actual model, avoids duplicates, and flags filter context risks
@@ -59,6 +63,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Skill Core + Escalation | 0/TBD | Not started | - |
+| 1. Skill Core + Escalation | 0/2 | Planning complete | - |
 | 2. Context-Aware DAX | 0/TBD | Not started | - |
 | 3. Deep Mode + Verification | 0/TBD | Not started | - |
