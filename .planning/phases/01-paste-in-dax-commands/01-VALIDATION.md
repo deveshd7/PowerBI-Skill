@@ -1,9 +1,9 @@
 ---
 phase: 1
 slug: paste-in-dax-commands
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: approved
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-03-12
 ---
 
@@ -66,12 +66,12 @@ created: 2026-03-12
 
 ## Wave 0 Requirements
 
-- [ ] `tests/fixtures/simple-measure.dax` — `Revenue = SUM(Sales[Amount])` — covers DAX-01, DAX-03 (Simple)
-- [ ] `tests/fixtures/intermediate-measure.dax` — `Sales YTD = CALCULATE([Revenue], DATESYTD('Date'[Date]))` — covers DAX-02, DAX-03 (Intermediate)
-- [ ] `tests/fixtures/complex-measure.dax` — `Risky = SUMX(Customers, [Revenue])` — covers DAX-09 (iterator over measure ref)
-- [ ] `tests/fixtures/slow-filter-measure.dax` — `Slow = CALCULATE(SUM(Sales[Amt]), FILTER(Sales, Sales[Year]=2024))` — covers DAX-08 (Rule 1)
-- [ ] `tests/fixtures/error-log.txt` — sample Power BI error message — covers ERR-01
-- [ ] `.pbi-context.md` initial stub — created by Wave 0 setup task
+- [x] `tests/fixtures/simple-measure.dax` — `Revenue = SUM(Sales[Amount])` — covers DAX-01, DAX-03 (Simple) — created by plan 01-01 Task 2
+- [x] `tests/fixtures/intermediate-measure.dax` — `Sales YTD = CALCULATE([Revenue], DATESYTD('Date'[Date]))` — covers DAX-02, DAX-03 (Intermediate) — created by plan 01-01 Task 2
+- [x] `tests/fixtures/complex-measure.dax` — `Risky = SUMX(Customers, [Revenue])` — covers DAX-09 (iterator over measure ref) — created by plan 01-01 Task 2
+- [x] `tests/fixtures/slow-filter-measure.dax` — `Slow = CALCULATE(SUM(Sales[Amt]), FILTER(Sales, Sales[Year]=2024))` — covers DAX-08 (Rule 1) — created by plan 01-01 Task 2
+- [x] `tests/fixtures/error-log.txt` — sample Power BI error message — covers ERR-01 — created by plan 01-01 Task 2
+- [x] `.pbi-context.md` initial stub — created by plan 01-01 Task 1
 
 ---
 
@@ -93,11 +93,11 @@ created: 2026-03-12
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency documented (manual cadence accepted for skill-only phase)
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or Wave 0 dependencies
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covers all MISSING references
+- [x] No watch-mode flags
+- [x] Feedback latency documented (manual cadence accepted for skill-only phase)
+- [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** approved
