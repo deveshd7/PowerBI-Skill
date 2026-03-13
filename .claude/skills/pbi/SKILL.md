@@ -85,7 +85,7 @@ What would you like to do?
 **E — Deep mode**
   Full structured workflow with upfront context gathering
 
-Type A, B, C, or D — or describe what you need and I'll route you directly.
+Type A, B, C, D, or E — or describe what you need and I'll route you directly.
 
 ---
 
