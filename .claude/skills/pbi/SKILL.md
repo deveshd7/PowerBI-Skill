@@ -5,6 +5,7 @@ version: 4.0.0
 disable-model-invocation: true
 model: sonnet
 allowed-tools: Read, Write, Bash, Agent
+argument-hint: "[explain|format|optimise|comment|error|new|load|audit|diff|commit|edit|undo|comment-batch|changelog|deep]"
 ---
 
 ## Detection Blocks (run once, shared by all subcommands)
