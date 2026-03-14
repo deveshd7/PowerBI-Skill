@@ -35,7 +35,11 @@ Full phase details: `.planning/milestones/v1.0-ROADMAP.md`
   2. User running pbi-diff or pbi-commit sees `Measure:` field written to `## Last Command`
   3. User running pbi-optimise sees Command History rows written as `timestamp | command | measure | outcome`, matching the schema
   4. pbi-error correctly correlates the last-edited measure after an edit, diff, commit, or optimise session
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Fix edit.md (DEBT-01) and optimise.md (DEBT-03) context write instructions
+- [ ] 03-02-PLAN.md — Fix diff.md and commit.md (DEBT-02) Measure field writes
 
 ### Phase 4: Deep Mode Complete
 **Goal**: Deep mode delivers a complete structured workflow — model review before any DAX, hard gates between phases, context restated at each phase start, and a final check that output answers the stated business question
@@ -55,5 +59,5 @@ Full phase details: `.planning/milestones/v1.0-ROADMAP.md`
 |-------|-----------|----------------|--------|-----------|
 | 1. Skill Core + Escalation | v1.0 | 2/2 | Complete | 2026-03-13 |
 | 2. Context-Aware DAX | v1.0 | 5/5 | Complete | 2026-03-14 |
-| 3. Context Field Fixes | v1.1 | 0/TBD | Not started | - |
+| 3. Context Field Fixes | v1.1 | 0/2 | Not started | - |
 | 4. Deep Mode Complete | v1.1 | 0/TBD | Not started | - |
