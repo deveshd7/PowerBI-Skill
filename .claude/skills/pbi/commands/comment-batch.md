@@ -1,39 +1,17 @@
----
-name: pbi-comment-batch
-description: Apply commenting across all measures in a table or the entire model at once. Generates inline // comments and Description fields for every measure. Use when an analyst wants to document all measures in bulk.
-disable-model-invocation: true
-model: sonnet
-allowed-tools: Read, Write, Bash
----
+# /pbi comment-batch
 
-## PBIP Detection
-
-!`if [ -d ".SemanticModel" ]; then if [ -f ".SemanticModel/model.bim" ]; then echo "PBIP_MODE=file PBIP_FORMAT=tmsl"; elif [ -d ".SemanticModel/definition/tables" ]; then echo "PBIP_MODE=file PBIP_FORMAT=tmdl"; else echo "PBIP_MODE=file PBIP_FORMAT=tmdl"; fi; else echo "PBIP_MODE=paste"; fi`
-
-## Desktop Check
-
-!`tasklist /fi "imagename eq PBIDesktop.exe" 2>/dev/null | findstr /i "PBIDesktop.exe" >nul 2>&1 && echo "DESKTOP=open" || echo "DESKTOP=closed"`
-
-## PBIP File Index
-
-!`if [ -d ".SemanticModel/definition/tables" ]; then find ".SemanticModel/definition/tables/" -name "*.tmdl" 2>/dev/null; elif [ -f ".SemanticModel/model.bim" ]; then echo "tmsl:.SemanticModel/model.bim"; fi`
-
-## Session Context
-
-!`cat .pbi-context.md 2>/dev/null | tail -80 || echo "No prior context found."`
-
----
+> Detection context (PBIP_MODE, PBIP_FORMAT, File Index, Session Context) is provided by the router.
 
 ## Instructions
 
 ### Step 0 — PBIP-Only Guard
 
-If PBIP Detection output contains `PBIP_MODE=paste`:
-- Output: "Batch commenting requires a PBIP project. Run /pbi:comment-batch from a directory containing .SemanticModel/. For a single measure, use /pbi:comment instead."
+If PBIP_MODE=paste:
+- Output: "Batch commenting requires a PBIP project. Run /pbi comment-batch from a directory containing .SemanticModel/. For a single measure, use /pbi comment instead."
 - Stop.
 
-If `PBIP_MODE=file`: output header:
-> File mode — PBIP project detected ([FORMAT]) | Desktop: [STATUS]
+If PBIP_MODE=file: output header:
+> File mode — PBIP project detected ([FORMAT])
 
 ---
 
@@ -57,7 +35,7 @@ Wait for response and set SCOPE accordingly.
 
 **If PBIP_FORMAT=tmdl:**
 
-Read each `.tmdl` file (from PBIP File Index) that matches the scope:
+Read each `.tmdl` file (from File Index) that matches the scope:
 - SCOPE=table: read only `[TARGET_TABLE].tmdl`
 - SCOPE=all: read all `.tmdl` files
 
@@ -82,7 +60,7 @@ If N=0: Output "No measures found in [scope]. Nothing to comment." Stop.
 
 For each measure in the list, generate:
 
-**Inline comments** (following the same rules as /pbi:comment Step 4):
+**Inline comments** (following the same rules as /pbi comment):
 - One comment above the measure name line describing overall business purpose
 - Comments above CALCULATE arguments explaining filter logic in business terms
 - Comments above VAR declarations explaining what each variable holds
@@ -90,7 +68,7 @@ For each measure in the list, generate:
 - Do NOT comment every line — only non-obvious business logic
 - Do NOT translate DAX syntax word-for-word
 
-**Description field** (following /pbi:comment Step 5 rules):
+**Description field** (following /pbi comment rules):
 - 1–3 sentences, plain business English
 - Max 300 characters, no DAX function names, no markdown
 - Ends with a period
@@ -124,13 +102,6 @@ Apply all comments? (y/N)
 
 ### Step 5 — Write Back
 
-**If DESKTOP=open:**
-- Output each measure's commented DAX and description in sequence (paste-ready format, same as /pbi:comment output structure)
-- Output: "Desktop is open — paste each measure manually."
-- Skip to Step 6.
-
-**If DESKTOP=closed:**
-
 **TMDL path:**
 For each table file that contains measures to update:
 1. Read the .tmdl file (Read tool)
@@ -155,14 +126,14 @@ Output for each file written:
 ```bash
 GIT_STATUS=$(git rev-parse --is-inside-work-tree 2>/dev/null && echo "yes" || echo "no")
 if [ "$GIT_STATUS" = "yes" ]; then
-  git add '.SemanticModel/' 2>/dev/null
+  git add ".SemanticModel/" 2>/dev/null
   git commit -m "chore: batch comment [N] measures in [scope]" 2>/dev/null && echo "AUTO_COMMIT=ok" || echo "AUTO_COMMIT=fail"
 else
   echo "AUTO_COMMIT=skip_no_repo"
 fi
 ```
 - AUTO_COMMIT=ok: Output "Auto-committed: chore: batch comment [N] measures in [scope]"
-- AUTO_COMMIT=skip_no_repo: Output "No git repo — run /pbi:commit to initialise one."
+- AUTO_COMMIT=skip_no_repo: Output "No git repo — run /pbi commit to initialise one."
 - AUTO_COMMIT=fail: silent (non-fatal)
 
 ---
@@ -170,8 +141,8 @@ fi
 ### Step 6 — Update Session Context
 
 Read `.pbi-context.md` (Read tool), update these sections, then Write the full file back:
-- `## Last Command`: Command = `/pbi:comment-batch`, Timestamp = current UTC ISO 8601, Measure = `[N] measures in [scope]`, Outcome = `Batch commented`
-- `## Command History`: Append one row `| [timestamp] | /pbi:comment-batch | [N] measures | Batch commented |`; keep last 20 rows maximum.
+- `## Last Command`: Command = `/pbi comment-batch`, Timestamp = current UTC ISO 8601, Measure = `[N] measures in [scope]`, Outcome = `Batch commented`
+- `## Command History`: Append one row; keep last 20 rows maximum.
 - Do NOT modify `## Analyst-Reported Failures`.
 
 ---
@@ -181,4 +152,3 @@ Read `.pbi-context.md` (Read tool), update these sections, then Write the full f
 - NEVER skip the confirmation prompt
 - NEVER modify measures marked as "already commented" unless the analyst explicitly requests overwrite
 - NEVER convert tabs to spaces in TMDL files
-- NEVER write when Desktop is open

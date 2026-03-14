@@ -2,23 +2,40 @@
 
 ## Overview
 
-This repo contains Claude Code skills (`/pbi:*`) that turn Claude into a Power BI DAX co-pilot. Skills are markdown files in `.claude/skills/` that Claude Code loads automatically.
+This repo contains a single Claude Code skill (`/pbi`) that turns Claude into a Power BI DAX co-pilot. The skill is a markdown file in `.claude/skills/pbi/` with subcommand files in `commands/`. Claude Code discovers the skill automatically.
 
-## Skill Architecture
+## Skill Architecture (v3.0)
 
-### Skill types
+### Single-skill router
 
-- **Paste-in skills** (work anywhere): `pbi-explain`, `pbi-format`, `pbi-optimise`, `pbi-comment`, `pbi-error`
-- **PBIP skills** (require `.SemanticModel/` directory): `pbi-load`, `pbi-audit`, `pbi-diff`, `pbi-commit`, `pbi-edit`, `pbi-undo`
-- **Router**: `pbi` — entry point that routes to subcommands
+All commands are accessed via `/pbi [subcommand]` (e.g., `/pbi explain`, `/pbi audit`). The router in `SKILL.md` runs detection blocks once, then loads the appropriate command file from `commands/`.
+
+### Subcommand types
+
+- **Paste-in** (work anywhere): explain, format, optimise, comment, error, new
+- **PBIP** (require `.SemanticModel/` directory): load, audit, diff, commit, edit, undo, comment-batch, changelog
+
+### Model selection
+
+- **Sonnet** (default): DAX reasoning subcommands — explain, format, optimise, comment, error, new, edit, comment-batch, audit
+- **Haiku** (via Agent spawn): file/git-heavy subcommands — load, diff, commit, undo, changelog
+
+### Detection
+
+Detection blocks run once in `SKILL.md` and are shared by all subcommands:
+- **PBIP detection**: file-existence checks (`model.bim` → TMSL, `definition/tables/` → TMDL)
+- **File Index**: lists all `.tmdl` files or model.bim
+- **PBIR detection**: checks for `.Report/` directory
+- **Git state**: checks if inside a git repo with commits
+- **Session context**: reads `.pbi-context.md`
+
+Desktop detection (`tasklist`) has been removed — file-mode commands always write to disk.
 
 ### Conventions
 
-- **Frontmatter**: every skill has `name`, `description`, `disable-model-invocation: true` (for paste-in skills), `model`, and `allowed-tools`
-- **PBIP detection**: skills that touch model files detect the project format using file-existence checks (`model.bim` → TMSL, `definition/tables/` → TMDL). Detection logic is inline in each skill's `!` block.
-- **Desktop check**: write-capable skills check whether Power BI Desktop is running. If open, output is paste-ready; if closed, files are written to disk. The `tasklist` check is Windows-only — non-Windows environments default to DESKTOP=closed (safe).
-- **Session context**: all skills read/write `.pbi-context.md` using Read-then-Write (never bash append). Keep Command History to 20 rows max. Never modify the Analyst-Reported Failures section.
-- **Auto-commit**: `pbi-edit`, `pbi-comment`, and `pbi-error` auto-commit after successful writes. Use `pbi-undo` to revert.
+- **Session context**: all commands read/write `.pbi-context.md` using Read-then-Write (never bash append). Keep Command History to 20 rows max. Never modify the Analyst-Reported Failures section.
+- **Auto-commit**: edit, comment, error, and new auto-commit after successful writes. Use undo to revert.
+- **Path quoting**: all bash paths must be double-quoted to handle spaces in directory names.
 
 ### File format rules
 
@@ -26,6 +43,30 @@ This repo contains Claude Code skills (`/pbi:*`) that turn Claude into a Power B
 - **TMSL expression format**: preserve original form (JSON string vs array). Use array form only if the expression contains line breaks
 - **grep for measure names**: always use `grep -rlF` (fixed-string) to avoid regex metacharacters in measure names breaking the search
 - **DAX in shell commands**: write to a temp file using a single-quoted heredoc delimiter to prevent shell expansion of `$`, backticks, etc.
+
+## Directory Structure
+
+```
+.claude/skills/pbi/
+  SKILL.md              ← router + detection blocks (v3.0)
+  commands/
+    explain.md          ← DAX explanation (sonnet)
+    format.md           ← DAX formatting (sonnet)
+    optimise.md         ← DAX optimisation (sonnet)
+    comment.md          ← DAX commenting (sonnet)
+    error.md            ← error diagnosis (sonnet)
+    new.md              ← measure scaffolding (sonnet)
+    load.md             ← PBIP context loader (haiku)
+    audit.md            ← model audit + auto-fix (sonnet, parallel agents)
+    diff.md             ← model change summary (haiku)
+    commit.md           ← git commit (haiku)
+    edit.md             ← plain-language model editing (sonnet)
+    undo.md             ← revert last auto-commit (haiku)
+    comment-batch.md    ← batch commenting (sonnet)
+    changelog.md        ← changelog generation (haiku)
+  shared/
+    api-notes.md        ← DAX Formatter API reference
+```
 
 ## Testing
 
@@ -40,9 +81,8 @@ Test fixtures are in `tests/fixtures/`:
 ## Known Limitations
 
 - **Session context race condition**: simultaneous skill invocations can overwrite each other's `.pbi-context.md` updates. Not an issue in interactive use but worth noting.
-- **Audit parallelism**: `pbi-audit` runs 4 domain passes sequentially. For large enterprise models (100+ tables), adding Agent-based parallelism per domain would improve latency. Currently acceptable for typical models.
-- **Desktop detection**: Windows-only via `tasklist`. Non-Windows defaults to DESKTOP=closed safely.
+- **Audit parallelism**: for models with 5+ tables, audit spawns 3 parallel agents for domain passes. For < 5 tables, runs sequentially to avoid agent overhead.
 
 ## Version
 
-Current: 2.0.0 (set in `pbi/SKILL.md` frontmatter)
+Current: 3.0.0 (set in `pbi/SKILL.md` frontmatter)

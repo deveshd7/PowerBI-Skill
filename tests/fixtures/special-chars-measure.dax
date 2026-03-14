@@ -1,0 +1,1 @@
+Revenue (Adj.) = CALCULATE(SUM(Sales[Amount]), Sales[$Region] <> "Excluded")

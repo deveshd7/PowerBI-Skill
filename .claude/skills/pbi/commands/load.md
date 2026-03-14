@@ -1,28 +1,12 @@
----
-name: pbi-load
-description: Load PBIP model context for use by DAX commands. Use when the analyst asks to load model context or when a PBIP project is present.
-model: haiku
-allowed-tools: Read, Write
----
+# /pbi load
 
-## PBIP Detection
-!`PBIP_RESULT=""; if [ -d ".SemanticModel" ]; then PBISM=$(cat ".SemanticModel/definition.pbism" 2>/dev/null); if echo "$PBISM" | grep -q '"version": "1.0"'; then PBIP_RESULT="PBIP_MODE=file PBIP_FORMAT=tmsl"; else PBIP_RESULT="PBIP_MODE=file PBIP_FORMAT=tmdl"; fi; else PBIP_RESULT="PBIP_MODE=paste"; fi; echo "$PBIP_RESULT"`
-
-## PBIP File Index
-!`if [ -d ".SemanticModel/definition/tables" ]; then find ".SemanticModel/definition/tables/" -name "*.tmdl" 2>/dev/null; elif [ -f ".SemanticModel/model.bim" ]; then echo "tmsl:.SemanticModel/model.bim"; fi`
-
-## Session Context
-!`cat .pbi-context.md 2>/dev/null | tail -80 || echo "No prior context found."`
-
----
+> Detection context (PBIP_MODE, PBIP_FORMAT, File Index, Session Context) is provided by the router.
 
 ## Instructions
 
-### Step 0 — Check startup detection output
+### Step 0 — Check detection output
 
-Read the output from the PBIP Detection block above.
-
-**If the output contains `PBIP_MODE=paste`:**
+**If PBIP_MODE=paste:**
 
 Respond with exactly this message and stop — do not read any files, do not update `.pbi-context.md`:
 
@@ -30,7 +14,7 @@ Respond with exactly this message and stop — do not read any files, do not upd
 
 ---
 
-**If the output contains `PBIP_MODE=file`:** proceed to Step 1 below.
+**If PBIP_MODE=file:** proceed to Step 1 below.
 
 ---
 
@@ -52,7 +36,7 @@ File mode — PBIP project detected ([FORMAT]) | Loading model context...
 
 **For TMDL (`PBIP_FORMAT=tmdl`):**
 
-The PBIP File Index block has already listed all `.tmdl` file paths under `.SemanticModel/definition/tables/`.
+The File Index has already listed all `.tmdl` file paths under `.SemanticModel/definition/tables/`.
 
 Use the Read tool to read each `.tmdl` file from that list.
 
@@ -112,7 +96,7 @@ Perform a single Read-then-Write pass to update `.pbi-context.md`:
 2. **Build the updated file content** — in one pass, update three things:
    a. **`## Model Context` section:** If it already exists, replace everything from `## Model Context` through the end of that section (up to the next `##` heading or end of file) with the new Model Context block. If it does not exist, append the new Model Context block after the last existing section.
    b. **`## Last Command` section:** Update with:
-      - Command: `/pbi:load`
+      - Command: `/pbi load`
       - Timestamp: current UTC time
       - Measure: `[N tables loaded]` where N is the count of tables found
       - Outcome: `Model context loaded ([FORMAT])`
@@ -139,5 +123,3 @@ File mode — PBIP project detected ([FORMAT]) | Context loaded.
 
 Context loaded — all DAX commands will now use model-aware analysis.
 ```
-
-Where `[FORMAT]` is `TMDL` if `PBIP_FORMAT=tmdl`, or `TMSL (model.bim)` if `PBIP_FORMAT=tmsl`.

@@ -1,41 +1,22 @@
----
-name: pbi-changelog
-description: Generate a human-readable CHANGELOG.md from git history. Parses conventional commit messages and groups changes by type. Use when an analyst wants a changelog or release notes.
-disable-model-invocation: true
-model: sonnet
-allowed-tools: Read, Write, Bash
----
+# /pbi changelog
 
-## PBIP Context Detection
-
-!`if [ -d ".SemanticModel" ]; then if [ -f ".SemanticModel/model.bim" ]; then echo "PBIP_MODE=file PBIP_FORMAT=tmsl"; elif [ -d ".SemanticModel/definition/tables" ]; then echo "PBIP_MODE=file PBIP_FORMAT=tmdl"; else echo "PBIP_MODE=file PBIP_FORMAT=tmdl"; fi; else echo "PBIP_MODE=paste"; fi`
-
-## Git State Check
-
-!`GIT_INSIDE=$(git rev-parse --is-inside-work-tree 2>/dev/null && echo "GIT=yes" || echo "GIT=no"); HAS_COMMITS=$(git rev-parse HEAD 2>/dev/null && echo "HAS_COMMITS=yes" || echo "HAS_COMMITS=no"); echo "$GIT_INSIDE $HAS_COMMITS"`
+> Detection context (PBIP_MODE, PBIP_FORMAT, Git State, Session Context) is provided by the router.
 
 ## Git Log
-
 !`git log --oneline --no-decorate -50 2>/dev/null || echo "NO_LOG"`
-
-## Session Context
-
-!`cat .pbi-context.md 2>/dev/null | tail -80 || echo "No prior context found."`
-
----
 
 ## Instructions
 
 ### Step 0 — Guards
 
 **If PBIP_MODE=paste:** output and stop:
-> No PBIP project found. Run /pbi:changelog from a directory containing .SemanticModel/.
+> No PBIP project found. Run /pbi changelog from a directory containing .SemanticModel/.
 
 **If GIT=no:** output and stop:
-> No git repo found. Run /pbi:commit to initialise one first.
+> No git repo found. Run /pbi commit to initialise one first.
 
 **If HAS_COMMITS=no:** output and stop:
-> No commits found. Make some changes and commit with /pbi:commit first.
+> No commits found. Make some changes and commit with /pbi commit first.
 
 Otherwise proceed to Step 1.
 
@@ -87,7 +68,6 @@ Project: .SemanticModel
 
 ## Added
 - [description] ([hash])
-- [description] ([hash])
 
 ## Fixed
 - [description] ([hash])
@@ -99,7 +79,7 @@ Project: .SemanticModel
 Rules:
 - Omit any category section that has zero entries
 - Within each category, list in reverse chronological order (newest first)
-- Strip the conventional commit prefix from the description (e.g., `feat: add [Revenue YTD]` → `add [Revenue YTD]`)
+- Strip the conventional commit prefix from the description
 - Skip merge commits entirely
 - If `--since` was used, add a note: `Changes since: [ref]`
 
@@ -120,6 +100,6 @@ Output: "Changelog written to CHANGELOG.md"
 ### Step 5 — Update Session Context
 
 Read `.pbi-context.md` (Read tool), update these sections, then Write the full file back:
-- `## Last Command`: Command = `/pbi:changelog`, Timestamp = current UTC ISO 8601, Measure = `(git operation)`, Outcome = `Changelog generated — [N] entries`
-- `## Command History`: Append one row `| [timestamp] | /pbi:changelog | (git operation) | Changelog generated |`; keep last 20 rows maximum.
+- `## Last Command`: Command = `/pbi changelog`, Timestamp = current UTC ISO 8601, Measure = `(git operation)`, Outcome = `Changelog generated — [N] entries`
+- `## Command History`: Append one row; keep last 20 rows maximum.
 - Do NOT modify `## Analyst-Reported Failures`.

@@ -1,0 +1,9 @@
+table EmptyTable
+
+	column ID
+		dataType: int64
+		formatString: 0
+
+	column Value
+		dataType: decimal
+		formatString: #,##0.00

@@ -1,0 +1,14 @@
+table Customers
+
+	column CustomerID
+		dataType: int64
+		formatString: 0
+
+	column 'Customer Name'
+		dataType: string
+
+	column Region
+		dataType: string
+
+	measure Revenue =
+			SUMX(RELATEDTABLE(Sales), Sales[Amount])

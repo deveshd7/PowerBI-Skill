@@ -1,0 +1,1 @@
+Region Group = SWITCH(TRUE(), Sales[Region] = "North", "Group A", Sales[Region] = "South", "Group A", Sales[Region] = "East", "Group B", "Other")

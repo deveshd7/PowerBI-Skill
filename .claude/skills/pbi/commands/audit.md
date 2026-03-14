@@ -1,0 +1,289 @@
+# /pbi audit
+
+> Detection context (PBIP_MODE, PBIP_FORMAT, File Index, PBIR Detection, Session Context) is provided by the router.
+
+## Instructions
+
+### Step 0 — Check PBIP detection output
+
+**If PBIP_MODE=paste:** output exactly this message and stop:
+
+> No PBIP project found in this directory. Run /pbi audit from a directory containing .SemanticModel/.
+
+**If PBIP_MODE=file:** output:
+
+```
+Auditing model...
+```
+
+Then proceed to Step 1.
+
+---
+
+### Step 1 — Read all model metadata
+
+**For TMDL (PBIP_FORMAT=tmdl):**
+
+The File Index has already listed all `.tmdl` file paths.
+
+Use the Read tool to read every `.tmdl` file path returned by the File Index.
+
+Use the Read tool to read `.SemanticModel/definition/relationships.tmdl` — if not found, treat as "no relationships defined".
+
+From each table `.tmdl` file extract:
+
+- **Table name:** the first non-blank line starting with `table ` — extract the name after `table `
+- **Table-level dataCategory:** look for `dataCategory: Time` appearing BEFORE any `column` or `measure` keyword in the file.
+- **Measure blocks:** each `measure Name =` or `measure 'Name' =` block. For each measure extract:
+  - Name: text after `measure ` up to ` =`, stripping single quotes
+  - Whether a `///` description line appears IMMEDIATELY above the measure keyword
+  - Whether `formatString:` appears inside the block
+  - Whether `displayFolder:` appears inside the block
+- **Column blocks:** each `column Name` line. Extract column name, strip quotes. Also extract `dataType:` and `isHidden` property (default false if absent).
+
+From `relationships.tmdl` extract: for each `relationship` block, the fromTable, fromColumn, toTable, toColumn, and crossFilteringBehavior value.
+
+**For TMSL (PBIP_FORMAT=tmsl):**
+
+Read `.SemanticModel/model.bim`. If model.bim is >2000 lines, use offset/limit parameters.
+
+Extract:
+- `model.tables[]`: table name, dataCategory, measures array, columns array
+- For each measure: name, description, formatString, displayFolder
+- For each column: name, isHidden
+- `model.relationships[]`: fromTable, fromColumn, toTable, toColumn, crossFilteringBehavior
+
+Build an internal metadata structure. Do not output it yet.
+
+---
+
+### Step 2 — Parallel Domain Passes
+
+**Small model shortcut:** If the model has fewer than 5 tables, run all domain passes sequentially (Steps 2a–2f below) without Agent parallelism — the overhead of spawning agents exceeds the benefit.
+
+**For models with 5+ tables:** Spawn 3 parallel Agents to run domain passes concurrently:
+
+**Agent 1 — Relationships + Date Table:**
+Pass the extracted metadata (relationships, tables with dataCategory, column dataTypes) and run:
+- Domain Pass A: Relationships (rules R-01, R-02, R-03)
+- Domain Pass C: Date Table (rules D-01, D-02)
+
+**Agent 2 — Naming + Measures:**
+Pass the extracted metadata (all table/measure/column names, measure properties) and run:
+- Domain Pass B: Naming (rules N-01, N-02, N-03)
+- Domain Pass D: Measures (rules M-01, M-02, M-03)
+
+**Agent 3 — Hidden Columns + PBIR Visuals:**
+Pass the extracted metadata (columns with isHidden, relationship columns, PBIR detection output) and run:
+- Domain Pass E: Hidden Column Hygiene (rules H-01, H-02, H-03)
+- Domain Pass F: Report Layer (rules V-01, V-02, V-03 — only if PBIR=yes)
+
+Each agent returns its findings as a list. Collect all findings after all 3 agents complete.
+
+---
+
+### Step 2a — Domain Pass A: Relationships
+
+Accumulate findings_relationships[]:
+
+**Rule R-01 — Bidirectional relationship (CRITICAL):**
+- Any relationship where crossFilteringBehavior = "bothDirections"
+- Finding: `Bidirectional filter set on relationship from [FromTable][FromColumn] to [ToTable][ToColumn].`
+- Recommendation: `Change crossFilteringBehavior to single-direction. Bidirectional filters create ambiguous filter paths and degrade query performance.`
+
+**Rule R-02 — Isolated table heuristic (WARN):**
+- Tables with NO outbound relationships AND whose name matches fact table patterns (contains "Sales", "Orders", "Transactions", "Invoice", "Fact", or no "Dim" prefix) AND has at least one numeric column
+- Recommendation: `Verify this table is intentionally isolated. Fact tables typically have relationships to dimension tables.`
+
+**Rule R-03 — No relationships at all (INFO):**
+- If model has more than 2 tables AND zero relationships total
+- Recommendation: `If tables are intentionally standalone this can be ignored.`
+
+---
+
+### Step 2b — Domain Pass B: Naming
+
+Accumulate findings_naming[]:
+
+**Naming inference algorithm:**
+1. For each scope (measure names, table names, column names), collect all names
+2. For scopes with 4+ names, detect dominant pattern: Title Case, PascalCase, snake_case, Prefix pattern, Mixed
+3. Dominant pattern = pattern used by >50% of names in that scope
+4. For scopes with fewer than 4 names: skip pattern inference
+
+**Rule N-01 — Blank or whitespace-only name (WARN)**
+**Rule N-02 — Special characters (WARN):** Names with leading/trailing spaces, or characters outside letters, digits, spaces, underscores, hyphens, parentheses
+**Rule N-03 — Naming style inconsistency (INFO):** Names deviating from inferred dominant pattern. Only emit if 3+ names deviate. Group all deviating names into ONE finding per scope.
+
+---
+
+### Step 2c — Domain Pass C: Date Table
+
+Accumulate findings_date[]:
+
+**Rule D-01 — No date table detected (WARN):** If no table has dataCategory = Time
+**Rule D-02 — Date table exists but no Date/DateTime column (INFO):** Table marked as date table but has no column with dateTime/date dataType
+
+If a date table IS found and IS correctly configured: add INFO finding noting it.
+
+---
+
+### Step 2d — Domain Pass D: Measures
+
+Accumulate findings_measures[]:
+
+**Rule M-01 — Empty formatString (WARN):** Any measure with no formatString property
+**Rule M-02 — Empty description (INFO):** Any measure with no description
+**Rule M-03 — No display folder (WARN):** Any measure with no displayFolder
+
+---
+
+### Step 2e — Domain Pass E: Hidden Column Hygiene
+
+Accumulate findings_columns[]:
+
+**Build relationship column set:** Collect all columns that appear as fromColumn or toColumn in any relationship.
+
+**Rule H-01 — Relationship key column not hidden (WARN):** Column used in a relationship AND isHidden = false
+**Rule H-02 — Foreign key / ID column not hidden (WARN):** Column name matches key/ID patterns (ends with Key, ID, Id, _id, _key, FK; equals id; starts with SK_, FK_, PK_) AND isHidden = false. Exclude columns already flagged by H-01.
+**Rule H-03 — Summary (INFO):** If ALL key columns are hidden: emit one INFO finding "All detected key/ID columns are already hidden."
+
+---
+
+### Step 2f — Domain Pass F: Report Layer (PBIR only)
+
+**Skip if PBIR=no.**
+
+Read each JSON file listed by PBIR Detection. Look for measure references in:
+- `"dataTransforms"` → `"projections"` → `"queryRef"`
+- `"dataTransforms"` → `"selects"` → `"measure"` → `"property"`
+
+Build model_measures and visual_measures sets.
+
+**Rule V-01 — Unused measure (INFO):** In model but NOT in visuals
+**Rule V-02 — Missing measure reference (WARN):** In visuals but NOT in model
+**Rule V-03 — Report layer summary (INFO):** Always emit when PBIR is present
+
+---
+
+### Step 3 — Merge and sort all findings
+
+Combine all findings. Sort: CRITICAL first, then WARN, then INFO.
+
+Count totals: N_critical, N_warn, N_info.
+
+---
+
+### Step 4 — Emit the report inline
+
+Output:
+
+```
+# PBI Model Audit Report
+**Project:** .SemanticModel
+**Format:** [TMDL or TMSL (model.bim)]
+**Date:** [current UTC date and time, format: YYYY-MM-DD HH:MM UTC]
+**Findings:** [N_critical] CRITICAL · [N_warn] WARN · [N_info] INFO
+
+---
+
+## CRITICAL
+[one subsection per CRITICAL finding, format:
+### [domain tag] [subject]
+[finding text]
+**Recommendation:** [recommendation text]
+]
+
+[If no CRITICAL findings: "## CRITICAL\n_None_"]
+
+---
+
+## WARN
+[one subsection per WARN finding]
+
+---
+
+## INFO
+[one subsection per INFO finding]
+
+---
+
+*Audit complete. Report written to: audit-report.md*
+```
+
+Domain tag format: `[Relationships]`, `[Naming]`, `[Date Table]`, `[Measures]`, `[Columns]`, `[Report]`
+
+---
+
+### Step 5 — Write audit-report.md
+
+Write the exact same report content to `audit-report.md` in the project root using the Write tool.
+
+---
+
+### Step 5b — Auto-Fix Mode (optional)
+
+After writing audit-report.md, check if there are any CRITICAL or WARN findings with available auto-fixes.
+
+**Fixable finding types:**
+| Rule | Fix Action |
+|------|-----------|
+| R-01 (bidirectional) | Change crossFilteringBehavior from bothDirections to oneDirection |
+| H-01 (relationship key visible) | Add isHidden property to column |
+| H-02 (ID column visible) | Same as H-01 |
+| M-01 (empty formatString) | Skip — cannot infer correct format |
+| M-03 (no display folder) | Skip — cannot infer correct folder |
+
+If there are zero fixable findings: skip to Step 6.
+
+If there are fixable findings, output:
+
+```
+**Auto-fix available**
+
+[N] findings can be fixed automatically:
+- [list each fixable finding: rule, subject, fix action]
+
+Apply all fixes? (y/N)
+```
+
+- n, N, Enter, or anything else: Output "No fixes applied." Skip to Step 6.
+- y or Y: proceed with fixes.
+
+**Apply fixes:**
+
+**TMDL fixes:**
+For each file that needs changes:
+1. Read the .tmdl file
+2. Apply all fixes (R-01: change crossFilteringBehavior; H-01/H-02: add isHidden property)
+3. Write the entire file back
+
+**TMSL fixes:**
+1. Read model.bim
+2. Apply all fixes
+3. Write entire model.bim back
+
+Output for each fix: `Fixed: [rule] — [subject] — [action taken]`
+
+**Auto-commit:**
+```bash
+GIT_STATUS=$(git rev-parse --is-inside-work-tree 2>/dev/null && echo "yes" || echo "no")
+if [ "$GIT_STATUS" = "yes" ]; then
+  git add ".SemanticModel/" 2>/dev/null
+  git commit -m "fix: auto-fix [N] audit findings (R-01, H-01, H-02)" 2>/dev/null && echo "AUTO_COMMIT=ok" || echo "AUTO_COMMIT=fail"
+else
+  echo "AUTO_COMMIT=skip_no_repo"
+fi
+```
+- AUTO_COMMIT=ok: Output "Auto-committed: fix: auto-fix [N] audit findings"
+- AUTO_COMMIT=skip_no_repo: Output "No git repo — run /pbi commit to initialise one."
+- AUTO_COMMIT=fail: silent
+
+---
+
+### Step 6 — Update .pbi-context.md
+
+Use Read-then-Write to update `.pbi-context.md`:
+1. Update `## Last Command`: Command = `/pbi audit`, Outcome = `Audit complete — [N_critical] CRITICAL, [N_warn] WARN, [N_info] INFO findings. Report written to audit-report.md`
+2. Append row to `## Command History`; trim to 20 rows max
+3. Do NOT modify `## Model Context`, `## Analyst-Reported Failures`, or any other sections

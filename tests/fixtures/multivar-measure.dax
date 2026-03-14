@@ -1,0 +1,9 @@
+YoY Growth % =
+VAR CurrentYear = [Revenue]
+VAR PriorYear =
+    CALCULATE(
+        [Revenue],
+        DATEADD('Date'[Date], -1, YEAR)
+    )
+RETURN
+DIVIDE(CurrentYear - PriorYear, PriorYear, BLANK())
