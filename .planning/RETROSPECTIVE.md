@@ -51,9 +51,55 @@
 
 ---
 
+## Milestone: v1.1 — Complete
+
+**Shipped:** 2026-03-14
+**Phases:** 2 (Phase 3: Context Field Fixes, Phase 4: Deep Mode Complete) | **Plans:** 4
+
+### What Was Built
+
+- Locked four-line `## Last Command` block with `- Field:` bullet syntax across edit, optimise, diff, commit — closed all three context-schema bugs from v1.0 audit
+- Four-phase deep mode workflow: Phase A (context intake), Gate A→B, Phase B (model review), Gate B→C, Phase C (DAX development), Phase D (final verification)
+- Hard gate three-branch logic (exact token / cancel / re-output) — prevents soft-gate bypass
+- Context re-injection blocks at Phase B, C, D starts to prevent context drift
+- 8 acceptance scenarios (S5-01 to S5-08) covering PHASE-01, VERF-01, VERF-02, VERF-03
+
+### What Worked
+
+- **Tight scope execution**: 4 plans, ~7 min total (Phase 3: ~2 min, Phase 4: ~4 min). Clear bug descriptions + locked solution patterns = near-zero planning overhead.
+- **Three-branch gate pattern**: Articulating the third branch (re-output on unmatched input) as the distinguishing feature of a *hard* gate resolved the design immediately. The insight "two-branch gates are soft gates" is a reusable heuristic.
+- **Acceptance scenarios as completion signal**: Writing S5-01 to S5-08 in Plan 02 made Phase 4 completion unambiguous without requiring live PBI Desktop tests.
+- **Locked `- Field:` bullet syntax**: Single change to instruction format eliminated an entire class of field-name ambiguity bugs. Generalizes to any context-write instruction.
+
+### What Was Inefficient
+
+- **v1.1-MILESTONE-AUDIT.md not created before close**: The v1.0 audit was available but no v1.1 audit was run before milestone completion. Low risk given the small scope, but the audit step provides value even for 2-phase milestones.
+- **ROADMAP.md plan checkboxes stayed `[ ]` through phase execution**: Same pattern from v1.0 — the phase summary and VERIFICATION.md had the right state but the roadmap plan checkboxes were never updated. Minor noise.
+
+### Patterns Established
+
+- **Locked context-write format**: All future subcommands that update `## Last Command` should use the locked four-line `- Field:` bullet format — never prose, never `Field = value`
+- **Hard gate structure**: Three branches always: (1) exact affirmative token → proceed, (2) cancel → stop, (3) anything else → re-output the full gate prompt. Never two-branch.
+- **Acceptance scenarios before plan close**: Last plan of each phase should include or reference the acceptance scenario group for that phase. Serves as verifiable completion criteria without live tool access.
+
+### Key Lessons
+
+1. **"Two-branch gates are soft gates"** — the third branch (re-output on unmatched input) is what makes a gate hard. This is the key design insight from Phase 4.
+2. **Field-name ambiguity is a class of bug** — any instruction that says "write Field = value" is a soft instruction. Lock it with `- Field: [value]` and the class disappears.
+3. **Small milestones ship fast** — 2 phases, 4 plans, 7 minutes execution. Tight scope + clear bugs + existing patterns = very low friction. The overhead is in planning and closure, not execution.
+
+### Cost Observations
+
+- Model mix: balanced profile (Sonnet default)
+- Sessions: ~2 sessions on 2026-03-14
+- Notable: Both phases executed in a single day with minimal context; Phase 3 in ~2 min, Phase 4 in ~4 min — fastest v1.x milestone by far
+
+---
+
 ## Cross-Milestone Trends
 
 | Milestone | Phases | Plans | Avg/Plan | Tech Debt Items |
 |-----------|--------|-------|----------|-----------------|
 | v1.0 Core | 2 | 7 | ~10 min | 3 (field schema mismatches) |
+| v1.1 Complete | 2 | 4 | ~2 min | 0 (debt-clearing milestone) |
 

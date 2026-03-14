@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A Claude Code skill for Power BI development that solves DAX requests immediately by default, escalates to structured questioning only after repeated failure signals, and grounds generated measures in the user's actual model context (table names, existing measures, filter exposure).
+A Claude Code skill for Power BI development that solves DAX requests immediately by default, escalates to structured questioning only after repeated failure signals, grounds generated measures in the user's actual model context, and provides a complete structured deep-mode workflow with model health review, hard phase gates, and context re-injection.
 
 ## Core Value
 
@@ -24,18 +24,17 @@ Never block a data analyst — solve immediately, interrogate only when stuck or
 - ✓ Duplication check always fires before writing any new measure — v1.0 (DAX-02)
 - ✓ Filter context warning surfaced for CALCULATE-heavy patterns without visual placement — v1.0 (DAX-03)
 - ✓ Measures phase has explicit gate: confirm before session closes in deep mode — v1.0 (PHASE-02)
+- ✓ pbi-edit writes `Measure:` (not `Entity:`) to `## Last Command` — v1.1 (DEBT-01)
+- ✓ pbi-diff and pbi-commit write actual measure names to `Measure:` field — v1.1 (DEBT-02)
+- ✓ pbi-optimise Command History rows match schema column order — v1.1 (DEBT-03)
+- ✓ Deep mode model review phase fires before any DAX — v1.1 (PHASE-01)
+- ✓ Deep mode phase boundaries are hard gates (no auto-advance) — v1.1 (VERF-01)
+- ✓ Deep mode final gate checks output answers the stated business question — v1.1 (VERF-02)
+- ✓ Context summary restated at start of each deep-mode phase — v1.1 (VERF-03)
 
 ### Active
 
-**v1.1 Complete:**
-
-- [ ] **DEBT-01**: pbi-edit writes `Entity:` not `Measure:` to `## Last Command` — fix field name
-- [ ] **DEBT-02**: pbi-diff and pbi-commit omit `Measure:` field — add consistent field writes
-- [ ] **DEBT-03**: pbi-optimise Command History row format wrong column order — align with schema
-- [ ] **PHASE-01**: Model review phase — analyze described model, flag health issues (M:M, missing date table, bidirectional filters), outputs findings before any DAX
-- [ ] **VERF-01**: Phase gates — hard checkpoints between phases in deep mode, user must confirm before advancing
-- [ ] **VERF-02**: Business question gate — final check that output answers the question stated at the start
-- [ ] **VERF-03**: Context re-injection — explicit context summary restated at start of each phase to prevent drift
+None — all known requirements are validated.
 
 ### Out of Scope
 
@@ -46,15 +45,13 @@ Never block a data analyst — solve immediately, interrogate only when stuck or
 
 ## Context
 
-**Shipped v1.0** with 2 phases, 7 plans, 2,635 LOC across skill markdown files.
-
-The core design decision that emerged from Phase 1: the original brief asked for "interrogation first", but the skill was rebuilt with the inverse — **progressive friction** (solve-first, escalate only on failure). This is the right model for a daily-use co-pilot. The interrogation path exists but is gated behind failure signals, not upfront.
-
-Phase 2 grounded all DAX commands in model context. Every subcommand now checks for `## Model Context` in `.pbi-context.md` and asks once if absent. The filter-sensitive gate and duplication check are always-on behaviors in `/pbi new`.
-
-**Tech debt from v1.0:** Three cross-phase `.pbi-context.md` field consistency issues (pbi-edit writes `Entity:` not `Measure:`, pbi-diff/commit omit `Measure:`, pbi-optimise Command History row format misaligned). Priority 1 fixes for v1.1.
+**Shipped v1.1** with 4 phases, 11 plans total, ~3,200 LOC across skill markdown files.
 
 **Tech stack:** Claude Code skill markdown, `.pbi-context.md` for session state, TMDL/TMSL file support.
+
+**v1.1 outcome:** All three Priority 1 cross-phase `.pbi-context.md` field bugs closed. Deep mode fully implemented with four-phase workflow (Phase A intake → Phase B model review → Phase C DAX development → Phase D final verification), hard gates at each phase boundary, context re-injection, and 8 acceptance scenarios.
+
+**Pending verification:** pbi-error file-mode live tests (ERR-03/INFRA-06) deferred until Power BI Desktop available. No implementation gap — same pattern as verified pbi-comment.
 
 ## Constraints
 
@@ -74,18 +71,10 @@ Phase 2 grounded all DAX commands in model context. Every subcommand now checks 
 | Duplication check always-on (not optional) | Opt-in check would be skipped; always-on prevents silent duplication | ✓ Good — fires reliably without user action |
 | Filter-sensitive keyword list includes natural language phrases | DAX function names alone miss user-phrased requests like "over time" | ✓ Good — catches more patterns |
 | Measures gate fires only on analyst completion signal | Per-measure gating would be disruptive; end-of-session review is less friction | ✓ Good — confirmed in Phase 2 smoke tests |
-| Model after GSD structure | User explicitly identified GSD as the reference for quality | — Pending (Phase 3 will complete this) |
-
-## Current Milestone: v1.1 Complete
-
-**Goal:** Ship a clean, debt-free final version — fix all context-field bugs and deliver Deep Mode with model review, phase gates, and context re-injection.
-
-**Target features:**
-- Fix 3 cross-phase `.pbi-context.md` field consistency bugs (pbi-edit, pbi-diff/commit, pbi-optimise)
-- Model review phase in deep mode (health flag analysis before any DAX)
-- Hard phase gates between all deep-mode phases
-- Business question gate at session end
-- Context re-injection at each phase start
+| Locked `- Field:` bullet syntax for Last Command writes | Prose notation caused Claude to infer wrong field names (Entity: vs Measure:) | ✓ Good — eliminates field-name ambiguity in all context writes |
+| Hard gate three-branch logic (exact token / cancel / re-output) | Two-branch gates are soft gates — unmatched input must re-output the gate | ✓ Good — "ok" and "sounds good" now correctly re-output |
+| Gate tokens: `continue`/`cancel` mid-session, `confirm`/`cancel` terminal | Differentiates mid-session phase advance from final session close | ✓ Good — clear semantic difference for users |
+| Model review scope: described context only, no file reads | Phase B should be fast and conversational; file-level audit is `/pbi audit` | ✓ Good — non-blocking, routes users to right tool for deep analysis |
 
 ---
-*Last updated: 2026-03-14 after v1.1 milestone start*
+*Last updated: 2026-03-14 after v1.1 milestone*

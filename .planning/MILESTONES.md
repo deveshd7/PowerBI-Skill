@@ -1,5 +1,24 @@
 # Milestones
 
+## v1.1 Complete (Shipped: 2026-03-14)
+
+**Phases completed:** 2 phases (Phase 3: Context Field Fixes, Phase 4: Deep Mode Complete)
+**Plans:** 4 | **Requirements shipped:** 7/7 v1.1 | **Files changed:** 21 | 3,039 insertions
+
+**Key accomplishments:**
+- Fixed pbi-edit Step 7: `Measure:` field (locked four-line format) replaces `Entity:` — closes DEBT-01 ERR-02 cross-phase degradation
+- Fixed pbi-diff and pbi-commit Step 5: actual measure names written to `Measure:` field, replacing `(git operation)` placeholder — closes DEBT-02
+- Fixed pbi-optimise Step 9: Command History rows reordered to `timestamp | command | measure | outcome` schema — closes DEBT-03
+- Rewrote deep.md as four-phase structured workflow (Phase A intake → Gate A→B → Phase B model review → Gate B→C → Phase C DAX → Phase D verification) — closes PHASE-01
+- Hard phase gates with three-branch logic (continue/cancel/re-output) — "ok" and "sounds good" now re-output the gate prompt, preventing soft-gate bypass — closes VERF-01/VERF-02/VERF-03
+- Added Group 5 acceptance scenarios (S5-01 to S5-08) covering all Phase 4 requirements
+
+**Archives:**
+- `.planning/milestones/v1.1-ROADMAP.md`
+- `.planning/milestones/v1.1-REQUIREMENTS.md`
+
+---
+
 ## v1.0 Core (Shipped: 2026-03-14)
 
 **Phases completed:** 2 phases (Phase 1: Skill Core + Escalation, Phase 2: Context-Aware DAX)
