@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Complete
 status: planning
-stopped_at: Completed 03-context-field-fixes 03-01-PLAN.md
-last_updated: "2026-03-14T07:59:28.756Z"
+stopped_at: Completed 03-context-field-fixes 03-02-PLAN.md
+last_updated: "2026-03-14T08:02:46.155Z"
 last_activity: 2026-03-14 — v1.1 roadmap created, Phase 3 is next
 progress:
   total_phases: 3
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 8
-  completed_plans: 7
+  completed_plans: 8
   percent: 96
 ---
 
@@ -61,6 +61,7 @@ Progress: [░░░░░░░░░░] 0%
 | 01-skill-core-escalation | 2 | ~20 min |
 | 02-context-aware-dax | 5 | ~6 min |
 | Phase 03-context-field-fixes P01 | 1 | 2 tasks | 2 files |
+| Phase 03-context-field-fixes P02 | 68s | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -76,6 +77,7 @@ Progress: [░░░░░░░░░░] 0%
 - Measures gate fires only on analyst completion signal (end-of-session review, not per-measure)
 - [Phase 03-context-field-fixes]: Use explicit '- Field:' bullet syntax in Last Command instructions to prevent Claude from using wrong field names (Entity: vs Measure:)
 - [Phase 03-context-field-fixes]: Fold Rules applied and Flags raised into Outcome field value to eliminate non-schema fields from ## Last Command in optimise.md
+- [Phase 03-context-field-fixes]: diff.md and commit.md Step 5 use explicit four-line Last Command format — Measure: field contains parsed measure names instead of (git operation) placeholder
 
 ### Pending Todos
 
@@ -87,6 +89,6 @@ None (tech debt from v1.0 is now captured as Phase 3 requirements DEBT-01/02/03)
 
 ## Session Continuity
 
-Last session: 2026-03-14T07:59:28.754Z
-Stopped at: Completed 03-context-field-fixes 03-01-PLAN.md
+Last session: 2026-03-14T08:02:46.153Z
+Stopped at: Completed 03-context-field-fixes 03-02-PLAN.md
 Resume file: None

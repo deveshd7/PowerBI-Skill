@@ -21,7 +21,7 @@ Full phase details: `.planning/milestones/v1.0-ROADMAP.md`
 
 **Milestone Goal:** Ship a clean, debt-free final version — fix all context-field bugs and deliver Deep Mode with model review, phase gates, and context re-injection.
 
-- [ ] **Phase 3: Context Field Fixes** - Fix all .pbi-context.md schema inconsistencies across pbi-edit, pbi-diff, pbi-commit, and pbi-optimise
+- [x] **Phase 3: Context Field Fixes** - Fix all .pbi-context.md schema inconsistencies across pbi-edit, pbi-diff, pbi-commit, and pbi-optimise (completed 2026-03-14)
 - [ ] **Phase 4: Deep Mode Complete** - Deliver model review phase, hard phase gates, context re-injection, and business question gate in deep mode
 
 ## Phase Details
@@ -59,5 +59,5 @@ Plans:
 |-------|-----------|----------------|--------|-----------|
 | 1. Skill Core + Escalation | v1.0 | 2/2 | Complete | 2026-03-13 |
 | 2. Context-Aware DAX | v1.0 | 5/5 | Complete | 2026-03-14 |
-| 3. Context Field Fixes | 1/2 | In Progress|  | - |
+| 3. Context Field Fixes | 2/2 | Complete   | 2026-03-14 | - |
 | 4. Deep Mode Complete | v1.1 | 0/TBD | Not started | - |

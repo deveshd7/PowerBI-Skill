@@ -11,7 +11,7 @@
 Context-field consistency bugs in `.pbi-context.md` writes that cause cross-command ERR-02 correlation failures.
 
 - [x] **DEBT-01**: User running pbi-edit sees `Measure:` (not `Entity:`) written to `## Last Command` in `.pbi-context.md`, so pbi-error can correctly correlate the last-edited measure
-- [ ] **DEBT-02**: User running pbi-diff or pbi-commit sees `Measure:` field written to `## Last Command`, so pbi-error correlates the correct measure after diff/commit workflows
+- [x] **DEBT-02**: User running pbi-diff or pbi-commit sees `Measure:` field written to `## Last Command`, so pbi-error correlates the correct measure after diff/commit workflows
 - [x] **DEBT-03**: User running pbi-optimise sees Command History rows written in correct column order (`timestamp | command | measure | outcome`) matching the `.pbi-context.md` schema
 
 ### Deep Mode
@@ -43,7 +43,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | DEBT-01 | Phase 3 | Complete |
-| DEBT-02 | Phase 3 | Pending |
+| DEBT-02 | Phase 3 | Complete |
 | DEBT-03 | Phase 3 | Complete |
 | PHASE-01 | Phase 4 | Pending |
 | VERF-01 | Phase 4 | Pending |
