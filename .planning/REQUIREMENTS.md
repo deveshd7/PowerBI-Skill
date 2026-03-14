@@ -17,18 +17,18 @@
 - [ ] **INTR-01**: When escalating, skill extracts the business question the report needs to answer
 - [ ] **INTR-02**: When escalating, skill gathers data model state (tables, relationships, calculated columns)
 - [ ] **INTR-03**: When escalating, skill audits existing measures to prevent duplication or conflicts
-- [ ] **INTR-04**: Before writing filter-sensitive DAX (ratios, time intelligence, ranking), skill asks about visual consumption context (where the measure will be placed, active slicers)
+- [x] **INTR-04**: Before writing filter-sensitive DAX (ratios, time intelligence, ranking), skill asks about visual consumption context (where the measure will be placed, active slicers)
 
 ### DAX / Measures
 
 - [x] **DAX-01**: Generated measures reference actual tables/columns described by user, not assumed generic schema
-- [ ] **DAX-02**: Duplication check — skill asks if a similar measure already exists before writing a new one
-- [ ] **DAX-03**: Filter context warning surfaced when generating CALCULATE-heavy patterns without knowing visual placement
+- [x] **DAX-02**: Duplication check — skill asks if a similar measure already exists before writing a new one
+- [x] **DAX-03**: Filter context warning surfaced when generating CALCULATE-heavy patterns without knowing visual placement
 
 ### Workflow Phases (deep mode)
 
 - [ ] **PHASE-01**: Model review phase — analyze described model, flag health issues (M:M relationships, missing date table, bidirectional filters), outputs findings before any DAX
-- [ ] **PHASE-02**: Measures phase — context-aware DAX generation, explicit gate before advancing to next phase
+- [x] **PHASE-02**: Measures phase — context-aware DAX generation, explicit gate before advancing to next phase
 
 ### Verification
 
@@ -74,12 +74,12 @@
 | INTR-01 | Phase 1 | Pending |
 | INTR-02 | Phase 1 | Pending |
 | INTR-03 | Phase 1 | Pending |
-| INTR-04 | Phase 2 | Pending |
+| INTR-04 | Phase 2 | Complete |
 | DAX-01 | Phase 2 | Complete |
-| DAX-02 | Phase 2 | Pending |
-| DAX-03 | Phase 2 | Pending |
+| DAX-02 | Phase 2 | Complete |
+| DAX-03 | Phase 2 | Complete |
 | PHASE-01 | Phase 3 | Pending |
-| PHASE-02 | Phase 2 | Pending |
+| PHASE-02 | Phase 2 | Complete |
 | VERF-01 | Phase 3 | Pending |
 | VERF-02 | Phase 3 | Pending |
 | VERF-03 | Phase 3 | Pending |

@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v4.0
 milestone_name: milestone
 status: in-progress
-stopped_at: Completed 02-03-PLAN.md
-last_updated: "2026-03-14T07:14:04.536Z"
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-03-14T07:14:54.465Z"
 last_activity: 2026-03-13 — Completed plan 01-02 (acceptance test scenarios, human verification approved)
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 19
-  completed_plans: 16
+  completed_plans: 18
 ---
 
 ---
@@ -67,6 +67,8 @@ Progress: [███░░░░░░░] 33%
 *Updated after each plan completion*
 | Phase 02-context-aware-dax P04 | 8 | 2 tasks | 2 files |
 | Phase 02-context-aware-dax P03 | 1 | 2 tasks | 3 files |
+| Phase 02-context-aware-dax P02 | 2 | 2 tasks | 1 files |
+| Phase 02-context-aware-dax P01 | 2 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -84,6 +86,10 @@ Recent decisions affecting current work:
 - [Phase 02-context-aware-dax]: Step 0.5 placed after ## Instructions header and before Step 1 in both comment and error files
 - [Phase 02-context-aware-dax]: format.md gets non-blocking Step 0.5 variant — analyst can skip context question without halting formatting
 - [Phase 02-context-aware-dax]: Step 0.5 skips the question when ## Model Context already present in .pbi-context.md — prevents redundant re-asking across commands
+- [Phase 02-context-aware-dax]: Step 0.5 is universal (paste + file mode) — old Step 2 was PBIP_MODE=file only
+- [Phase 02-context-aware-dax]: Duplication check (Step 2) is always-on — fires before every generation regardless of context state
+- [Phase 02-context-aware-dax]: Filter-sensitive keyword list includes both DAX function names and natural language phrases for maximum coverage
+- [Phase 02-context-aware-dax]: Phase 2 acceptance scenarios organized by behavior group (4 groups) matching requirement boundaries for traceability
 
 ### Pending Todos
 
@@ -95,6 +101,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-14T07:14:04.534Z
-Stopped at: Completed 02-03-PLAN.md
+Last session: 2026-03-14T07:14:54.463Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None
