@@ -65,9 +65,45 @@ Output a summary of gathered context:
 Context saved to .pbi-context.md. All /pbi commands will use this context going forward.
 
 What would you like to work on first?
+When you've finished generating measures, say "done" to review your session before closing.
 ```
 
 The user can now use any /pbi subcommand and the gathered context will inform the response via Session Context detection.
+
+---
+
+### Step 4 -- Measures Gate (end of session)
+
+This step activates ONLY when the analyst signals completion of the measures phase.
+
+**Trigger phrases (case-insensitive):** "done", "that's all the measures", "finished", "I think we're good", "complete", "all done", "that's it"
+
+**Do NOT trigger** this step after each individual /pbi new call. Wait for explicit analyst signal.
+
+When triggered:
+
+1. Read `.pbi-context.md` with Read tool. Collect all rows from `## Command History` where Command = `/pbi new`.
+
+2. Output the session summary:
+
+   > **Measures session summary:**
+   > [For each /pbi new row in Command History: "- [Measure Name] -> added in this session"]
+   > (If no /pbi new rows found: "- No measures generated in this session via /pbi new.")
+   >
+   > **Business question on file:** [Content of ## Business Question from .pbi-context.md]
+   >
+   > Do these measures answer the stated business question? (yes / no -- if no, describe what's missing)
+
+3. Wait for the analyst's answer.
+   - **Yes** (or any affirmative): proceed to step 4.
+   - **No**: acknowledge the gap. Output: "Understood -- what's missing? Continue with /pbi new to add more measures." Do NOT close the session. Resume from Step 3's "What would you like to work on first?" state.
+
+4. Output the confirmation prompt:
+   > All measures complete -- confirm to close the deep mode session. (confirm / cancel)
+
+5. Wait for response.
+   - **confirm**: Output: "Deep mode session closed. Use /pbi diff or /pbi commit to review and save your changes."
+   - **cancel** (or anything else): Output: "Session kept open. Continue with /pbi new or other commands." Resume from Step 3 state.
 
 ---
 
@@ -76,3 +112,6 @@ The user can now use any /pbi subcommand and the gathered context will inform th
 - NEVER ask all 3 questions at once — ask one, wait, ask next
 - NEVER re-ask a question if the answer is already in `.pbi-context.md`
 - NEVER impose phase gates in Phase 1 — that's Phase 3 scope
+- NEVER trigger the measures gate after each individual /pbi new call -- it fires only on analyst completion signal
+- NEVER advance past the gate if the business question check returns "no" -- offer to continue generating
+- NEVER impose visual or polish phases at the gate (Phase 3 scope)
