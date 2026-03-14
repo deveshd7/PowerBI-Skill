@@ -43,7 +43,14 @@ Plans:
   3. When generating CALCULATE-heavy or filter-sensitive DAX (time intelligence, ratios, ranking) without knowing the visual placement, the skill surfaces a filter context warning
   4. Before writing filter-sensitive DAX, the skill asks where the measure will be placed and what slicers are active
   5. The measures phase in deep mode has an explicit gate: user must confirm before the session advances
-**Plans**: TBD
+**Plans**: 5 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Phase 2 acceptance test scenarios (14 scenarios, Wave 0)
+- [ ] 02-02-PLAN.md — new.md: Step 0.5 (context intake), Step 2 (duplication check), Step 2.5 (filter-sensitive gate)
+- [ ] 02-03-PLAN.md — explain.md, format.md, optimise.md: Step 0.5 (context intake)
+- [ ] 02-04-PLAN.md — comment.md, error.md: Step 0.5 (context intake)
+- [ ] 02-05-PLAN.md — deep.md: Step 4 measures gate + human verification checkpoint
 
 ### Phase 3: Deep Mode + Verification
 **Goal**: On-demand structured workflow is available with model review, hard phase gates, and context carry-forward
@@ -64,5 +71,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Skill Core + Escalation | 2/2 | Complete    | 2026-03-13 |
-| 2. Context-Aware DAX | 0/TBD | Not started | - |
+| 2. Context-Aware DAX | 0/5 | Not started | - |
 | 3. Deep Mode + Verification | 0/TBD | Not started | - |
