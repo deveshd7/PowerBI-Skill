@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v4.0
 milestone_name: milestone
 status: in-progress
-stopped_at: Phase 2 context gathered
-last_updated: "2026-03-14T06:45:25.654Z"
+stopped_at: Completed 02-04-PLAN.md
+last_updated: "2026-03-14T07:14:01.420Z"
 last_activity: 2026-03-13 — Completed plan 01-02 (acceptance test scenarios, human verification approved)
 progress:
   total_phases: 5
   completed_phases: 4
-  total_plans: 14
-  completed_plans: 14
+  total_plans: 19
+  completed_plans: 16
 ---
 
 ---
@@ -65,6 +65,8 @@ Progress: [███░░░░░░░] 33%
 - Trend: On track
 
 *Updated after each plan completion*
+| Phase 02-context-aware-dax P04 | 8 | 2 tasks | 2 files |
+| Phase 02-context-aware-dax P03 | 1 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -78,6 +80,10 @@ Recent decisions affecting current work:
 - [01-01]: Solve-first catch-all routing via `*` wildcard in SKILL.md routing table
 - [01-01]: Escalation uses gap-type targeting (one question per identified gap, not a full checklist)
 - [01-02]: Acceptance test scenarios structured as step tables for ease of manual execution
+- [Phase 02-context-aware-dax]: comment asks table-only; error asks table+columns because column names sharpen Category A/C diagnosis
+- [Phase 02-context-aware-dax]: Step 0.5 placed after ## Instructions header and before Step 1 in both comment and error files
+- [Phase 02-context-aware-dax]: format.md gets non-blocking Step 0.5 variant — analyst can skip context question without halting formatting
+- [Phase 02-context-aware-dax]: Step 0.5 skips the question when ## Model Context already present in .pbi-context.md — prevents redundant re-asking across commands
 
 ### Pending Todos
 
@@ -89,6 +95,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-13T19:00:17.865Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-context-aware-dax/02-CONTEXT.md
+Last session: 2026-03-14T07:13:53.834Z
+Stopped at: Completed 02-04-PLAN.md
+Resume file: None

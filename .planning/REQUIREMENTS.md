@@ -21,7 +21,7 @@
 
 ### DAX / Measures
 
-- [ ] **DAX-01**: Generated measures reference actual tables/columns described by user, not assumed generic schema
+- [x] **DAX-01**: Generated measures reference actual tables/columns described by user, not assumed generic schema
 - [ ] **DAX-02**: Duplication check — skill asks if a similar measure already exists before writing a new one
 - [ ] **DAX-03**: Filter context warning surfaced when generating CALCULATE-heavy patterns without knowing visual placement
 
@@ -75,7 +75,7 @@
 | INTR-02 | Phase 1 | Pending |
 | INTR-03 | Phase 1 | Pending |
 | INTR-04 | Phase 2 | Pending |
-| DAX-01 | Phase 2 | Pending |
+| DAX-01 | Phase 2 | Complete |
 | DAX-02 | Phase 2 | Pending |
 | DAX-03 | Phase 2 | Pending |
 | PHASE-01 | Phase 3 | Pending |
