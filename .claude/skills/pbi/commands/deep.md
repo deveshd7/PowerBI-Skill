@@ -4,6 +4,10 @@
 
 ## Instructions
 
+---
+
+## Phase A — Context Intake
+
 ### Step 0 — Check Existing Context
 
 Read Session Context from detection output. Check `.pbi-context.md` for existing sections:
@@ -52,66 +56,178 @@ Write the full file back with Write tool.
 
 ---
 
-### Step 3 — Confirm and Ready
+### Gate A→B — Intake to Model Review
 
-Output a summary of gathered context:
+Output exactly:
 
-```
-**Deep mode context gathered:**
-- Business question: [summary]
-- Model state: [summary or "from /pbi load"]
-- Existing measures: [summary]
+> **--- Gate: Model Review ---**
+> Context gathered. Next: I will review your described model for structural issues before any DAX is written.
+>
+> Type **continue** to proceed, or **cancel** to stop the session.
 
-Context saved to .pbi-context.md. All /pbi commands will use this context going forward.
-
-What would you like to work on first?
-When you've finished generating measures, say "done" to review your session before closing.
-```
-
-The user can now use any /pbi subcommand and the gathered context will inform the response via Session Context detection.
+Wait for the analyst's response.
+- Response is "continue" (case-insensitive): proceed to Phase B — Model Review.
+- Response is "cancel": output "Session paused. Use /pbi deep to restart." and stop.
+- Any other response: re-output the gate prompt above. Do NOT advance.
 
 ---
 
-### Step 4 -- Measures Gate (end of session)
+## Phase B — Model Review
 
-This step activates ONLY when the analyst signals completion of the measures phase.
+### Step B1 — Context Summary
+
+Read `.pbi-context.md`. Output:
+
+> **Current session context:**
+> - Business question: [## Business Question content, or "(not set)"]
+> - Model: [## Model Context first 2 lines, or "(not set)"]
+> - Existing measures: [## Existing Measures content, or "(none noted)"]
+
+If any field is "(not set)": pause and collect it before continuing (re-run the appropriate intake question from Phase A Step 1).
+
+---
+
+### Step B2 — Analyze Described Model
+
+Read `.pbi-context.md ## Model Context`. Analyze the described model conversationally for health issues.
+
+**This review operates on the described model context only. Do NOT read `.SemanticModel/` files. For file-level audit, direct the user to `/pbi audit`.**
+
+**CRITICAL checks:**
+- **Bidirectional relationship** — any mention of "both directions", "both ways", "bi-directional", or filter going both ways
+- **Many-to-many (M:M)** — any description where both sides of a relationship are "many", or explicit mention of "many-to-many" or "M:M"
+
+**WARN checks:**
+- **No date/calendar table** — no table described as a date, calendar, or time dimension
+- **Isolated fact table** — a table with "Sales", "Orders", "Transactions" in its name and no described relationship
+
+---
+
+### Step B3 — Output Model Review Findings
+
+Output:
+
+> **Model Review:**
+>
+> [CRITICAL findings first — list each with a brief recommendation]
+> [WARN findings next — list each with a brief recommendation]
+> [If no issues found: "No structural issues detected in your described model."]
+> [If model description is too sparse to evaluate any rule: "Model description is brief — no specific issues detected. If you have known relationship concerns, describe them and I'll flag risks."]
+>
+> [If any issues found]: "These findings won't block DAX work, but addressing them now will improve measure reliability."
+
+Then proceed to Gate B→C.
+
+---
+
+### Gate B→C — Model Review to DAX Development
+
+Output exactly:
+
+> **--- Gate: DAX Development ---**
+> Model review complete. Next: DAX development phase where we build measures for your business question.
+>
+> Type **continue** to proceed, or **cancel** to stop the session.
+
+Wait for the analyst's response.
+- Response is "continue" (case-insensitive): proceed to Phase C — DAX Development.
+- Response is "cancel": output "Session paused. Use /pbi deep to restart." and stop.
+- Any other response: re-output the gate prompt above. Do NOT advance.
+
+---
+
+## Phase C — DAX Development
+
+### Step C1 — Context Summary
+
+Read `.pbi-context.md`. Output:
+
+> **Current session context:**
+> - Business question: [## Business Question content, or "(not set)"]
+> - Model: [## Model Context first 2 lines, or "(not set)"]
+> - Existing measures: [## Existing Measures content, or "(none noted)"]
+
+If any field is "(not set)": pause and collect it before continuing (re-run the appropriate intake question from Phase A Step 1).
+
+---
+
+### Step C2 — Open DAX Development
+
+Output:
+
+> **DAX Development phase:**
+> Context saved to .pbi-context.md. All /pbi commands will use this context going forward.
+>
+> What would you like to work on first?
+> When you've finished generating measures, say "done" to review your session before closing.
+
+The user can now use any /pbi subcommand. The gathered context informs all responses via Session Context detection.
+
+---
+
+## Phase D — Final Verification
+
+This phase activates ONLY when the analyst signals completion of the measures phase.
 
 **Trigger phrases (case-insensitive):** "done", "that's all the measures", "finished", "I think we're good", "complete", "all done", "that's it"
 
-**Do NOT trigger** this step after each individual /pbi new call. Wait for explicit analyst signal.
-
-When triggered:
-
-1. Read `.pbi-context.md` with Read tool. Collect all rows from `## Command History` where Command = `/pbi new`.
-
-2. Output the session summary:
-
-   > **Measures session summary:**
-   > [For each /pbi new row in Command History: "- [Measure Name] -> added in this session"]
-   > (If no /pbi new rows found: "- No measures generated in this session via /pbi new.")
-   >
-   > **Business question on file:** [Content of ## Business Question from .pbi-context.md]
-   >
-   > Do these measures answer the stated business question? (yes / no -- if no, describe what's missing)
-
-3. Wait for the analyst's answer.
-   - **Yes** (or any affirmative): proceed to step 4.
-   - **No**: acknowledge the gap. Output: "Understood -- what's missing? Continue with /pbi new to add more measures." Do NOT close the session. Resume from Step 3's "What would you like to work on first?" state.
-
-4. Output the confirmation prompt:
-   > All measures complete -- confirm to close the deep mode session. (confirm / cancel)
-
-5. Wait for response.
-   - **confirm**: Output: "Deep mode session closed. Use /pbi diff or /pbi commit to review and save your changes."
-   - **cancel** (or anything else): Output: "Session kept open. Continue with /pbi new or other commands." Resume from Step 3 state.
+**Do NOT trigger** this phase after each individual /pbi new call. Wait for explicit analyst signal.
 
 ---
 
-### Anti-Patterns
+### Step D1 — Context Summary
+
+Read `.pbi-context.md`. Output:
+
+> **Current session context:**
+> - Business question: [## Business Question content, or "(not set)"]
+> - Model: [## Model Context first 2 lines, or "(not set)"]
+> - Existing measures: [## Existing Measures content, or "(none noted)"]
+
+---
+
+### Step D2 — Final Verification Gate
+
+Read `.pbi-context.md`. Collect:
+- `## Business Question` — verbatim content
+- All rows from `## Command History` where Command = `/pbi new`
+
+Output:
+
+> **Final verification:**
+>
+> **Business question:** [verbatim content of ## Business Question]
+>
+> **Measures created this session:**
+> [For each /pbi new row in Command History: "- [Measure Name]"]
+> (If no /pbi new rows: "- No measures generated via /pbi new in this session.")
+>
+> Do these measures answer the stated business question? (yes / no)
+
+Wait for the analyst's response.
+- "yes" (or clear affirmative — "yep", "yeah", "correct", "they do"): output close prompt:
+  > All measures complete — confirm to close the deep mode session. (confirm / cancel)
+- "no" or any negative: output "What's missing? Continue with /pbi new." Resume Phase C state.
+- Anything else: re-output the question above. Do NOT advance.
+
+---
+
+### Step D3 — Session Close
+
+Wait for confirm/cancel response.
+- "confirm": Output "Deep mode session closed. Use /pbi diff or /pbi commit to review and save your changes."
+- "cancel" (or anything else): Output "Session kept open. Continue with /pbi new or other commands." Resume Phase C state.
+
+---
+
+## Anti-Patterns
+
 - NEVER enter deep mode unless the user explicitly typed `/pbi deep` — no automatic upgrade
-- NEVER ask all 3 questions at once — ask one, wait, ask next
+- NEVER ask all 3 intake questions at once — ask one, wait, ask next
 - NEVER re-ask a question if the answer is already in `.pbi-context.md`
-- NEVER impose phase gates in Phase 1 — that's Phase 3 scope
-- NEVER trigger the measures gate after each individual /pbi new call -- it fires only on analyst completion signal
-- NEVER advance past the gate if the business question check returns "no" -- offer to continue generating
-- NEVER impose visual or polish phases at the gate (Phase 3 scope)
+- NEVER advance past a phase gate on vague input ("ok", "sounds good", "yes") — the gate token must be "continue" (case-insensitive). Re-output the gate.
+- NEVER run model review against `.SemanticModel/` files — Phase B operates on described context only. For file-level audit, direct the user to `/pbi audit`.
+- NEVER generate DAX before Gate A→B is confirmed — model review must complete first
+- NEVER trigger the final verification gate (Phase D) after each individual /pbi new call — it fires only on analyst completion signal
+- NEVER advance past the final gate if the business question check returns "no" — offer to continue generating
+- NEVER impose gates on individual /pbi new calls within Phase C — gates are at phase boundaries only
