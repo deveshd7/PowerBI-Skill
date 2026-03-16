@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Claude_Code-Skill-blueviolet?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0tMiAxNWwtNS01IDEuNDEtMS40MUwxMCAxNC4xN2w3LjU5LTcuNTlMMTkgOGwtOSA5eiIvPjwvc3ZnPg==" alt="Claude Code Skill">
-  <img src="https://img.shields.io/badge/version-3.0-blue?style=for-the-badge" alt="Version 3.0">
+  <img src="https://img.shields.io/badge/version-4.0-blue?style=for-the-badge" alt="Version 4.0">
   <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="MIT License">
   <img src="https://img.shields.io/badge/Power_BI-DAX-F2C811?style=for-the-badge&logo=powerbi&logoColor=black" alt="Power BI DAX">
 </p>
@@ -48,6 +48,7 @@
 | `/pbi undo` | Revert the last auto-commit |
 | `/pbi comment-batch` | Comment every measure in a table |
 | `/pbi changelog` | Generate CHANGELOG from git history |
+| `/pbi extract` | Export project documentation |
 
 </td>
 </tr>
